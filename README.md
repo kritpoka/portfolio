@@ -46,7 +46,7 @@ Nothing outstanding. Smart Dorm shows a before/after workflow diagram, KU Campus
 
 **Nice to have**
 - [ ] **Screenshots.** The hero and homepage preview are a before/after workflow diagram for now. If you add screens (or share Figma links and I pull them with the Figma MCP `get_screenshot`), swap in `BrowserPhoneHero` or `<Screenshot>`.
-- [ ] 07 Outcome: `[ADD ANY RESULT — e.g. staff feedback, time saved, whether it was adopted]`.
+- [ ] 07 Outcome: a result (staff feedback, time saved, whether it was adopted). Hidden for now; the spot is marked in the MDX.
 
 "What I'd change" stays hidden, and there is a single key finding and two decisions, as confirmed.
 
