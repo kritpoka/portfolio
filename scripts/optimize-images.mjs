@@ -17,6 +17,16 @@ const OUT = "public/work";
 // Safari address bar, keep the app's own header and tab bar.
 const POS_CROP = { top: 150, bottom: 2370 };
 
+// Product photos in the POS screenshots come from other websites, so they are
+// blurred (regions in original 1170×2532 px: [left, top, width, height]).
+// The edit screen's image-URL field names the source site, so it is blurred too.
+const POS_BLUR = {
+  ordering: [[80, 370, 440, 340], [650, 370, 440, 340], [80, 1030, 440, 305], [650, 1030, 440, 305], [80, 1660, 440, 305], [650, 1660, 440, 305]],
+  cart: [[90, 660, 260, 275], [90, 1195, 260, 275], [90, 1710, 260, 275]],
+  "product-list": [[95, 870, 205, 170], [95, 1065, 205, 170], [95, 1255, 205, 170], [95, 1450, 205, 170], [95, 1645, 205, 170], [95, 1840, 205, 170], [95, 2035, 205, 170]],
+  edit: [[40, 700, 1090, 830], [40, 2130, 1090, 130]],
+};
+
 /** key → [source file, slug, output name, max width, crop?] */
 const IMAGES = {
   kuMapShare: ["ku-campus-map/og-share.jpg", "ku-campus-map", "og-share", 1200],
@@ -36,6 +46,18 @@ const IMAGES = {
 const entries = [];
 for (const [key, [file, slug, name, maxWidth, crop]] of Object.entries(IMAGES)) {
   let img = sharp(join(SRC, file));
+  const blur = POS_BLUR[file.split("/")[1]?.replace(".png", "")];
+  if (blur) {
+    const base = await img.toBuffer();
+    const patches = await Promise.all(
+      blur.map(async ([left, top, width, height]) => ({
+        input: await sharp(base).extract({ left, top, width, height }).blur(28).toBuffer(),
+        left,
+        top,
+      })),
+    );
+    img = sharp(await sharp(base).composite(patches).toBuffer());
+  }
   if (crop) {
     const { width } = await img.metadata();
     img = sharp(await img.extract({ left: 0, top: crop.top, width, height: crop.bottom - crop.top }).toBuffer());
@@ -44,9 +66,9 @@ for (const [key, [file, slug, name, maxWidth, crop]] of Object.entries(IMAGES)) 
   await mkdir(join(OUT, slug), { recursive: true });
   const out = join(OUT, slug, `${name}.webp`);
   const { width, height } = await sharp(resized).webp({ quality: 86 }).toFile(out);
-  const blur = await sharp(resized).resize(16).webp({ quality: 40 }).toBuffer();
+  const tiny = await sharp(resized).resize(16).webp({ quality: 40 }).toBuffer();
   entries.push(
-    `  ${key}: { src: "/work/${slug}/${name}.webp", width: ${width}, height: ${height}, blurDataURL: "data:image/webp;base64,${blur.toString("base64")}" },`,
+    `  ${key}: { src: "/work/${slug}/${name}.webp", width: ${width}, height: ${height}, blurDataURL: "data:image/webp;base64,${tiny.toString("base64")}" },`,
   );
   console.log(out, `${width}×${height}`);
 }
