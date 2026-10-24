@@ -2,6 +2,7 @@ import type { MDXComponents } from "mdx/types";
 import { Decision, Findings, Outcome, Section } from "@/components/case/Blocks";
 import { BrowserPhoneHero, PhonesHero } from "@/components/case/Heroes";
 import MapPreview from "@/components/case/MapPreview";
+import { SmartDormWorkflowHero } from "@/components/diagrams/SmartDormWorkflow";
 import { Ph } from "@/components/case/Ph";
 import { PhoneShots, Screenshot } from "@/components/case/Shots";
 import {
@@ -27,6 +28,7 @@ const components = {
   Outcome,
   Ph,
   BrowserPhoneHero,
+  SmartDormWorkflowHero,
   PhonesHero,
   Screenshot,
   PhoneShots,

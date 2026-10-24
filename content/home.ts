@@ -7,7 +7,7 @@ import { LINKS } from "@/lib/site";
 
 type SelectedWork = ProjectRowData & {
   /** Hover / tap preview. Omit for confidential work. */
-  preview?: { placeholder: string; media?: Media };
+  preview?: { placeholder: string; media?: Media } | { diagram: "smart-dorm-workflow" };
 };
 
 const caseLink = (slug: string) => ({ label: "Case study →", href: `/work/${slug}` });
@@ -22,8 +22,8 @@ export const selectedWork: SelectedWork[] = [
     role: "UX/UI, workflow + front-end, team of 4",
     stack: "Figma · Next.js · Spring Boot · Flutter (follow-up app)",
     links: [caseLink("smart-dorm")],
-    caption: "Resident + staff dashboards",
-    preview: { placeholder: "[SCREENSHOT] Smart Dorm dashboard" },
+    caption: "Monthly billing, before and after",
+    preview: { diagram: "smart-dorm-workflow" },
   },
   {
     title: "KU Campus Map",

@@ -3,6 +3,7 @@ import CopyEmailButton from "@/components/CopyEmailButton";
 import MediaSlot from "@/components/MediaSlot";
 import ThemeToggle from "@/components/ThemeToggle";
 import TrackedLink from "@/components/TrackedLink";
+import { SmartDormWorkflowPreview } from "@/components/diagrams/SmartDormWorkflow";
 import PaletteButton from "@/components/command/PaletteButton";
 import ProjectRow from "@/components/home/ProjectRow";
 import { reveal } from "@/components/reveal";
@@ -123,9 +124,12 @@ export default function Home() {
                 key={row.title}
                 {...row}
                 preview={
-                  preview && (
+                  preview &&
+                  ("diagram" in preview ? (
+                    <SmartDormWorkflowPreview />
+                  ) : (
                     <MediaSlot media={preview.media} placeholder={preview.placeholder} sizes="(min-width: 1360px) 300px, 100vw" />
-                  )
+                  ))
                 }
               />
             ))}
