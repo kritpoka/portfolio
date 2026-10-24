@@ -4,67 +4,65 @@ export const meta = {
   title: "Smart Dorm",
   shortTitle: "Smart Dorm",
   year: "2025–2026",
-  readTime: "5 min read",
+  readTime: "4 min read",
   summary:
-    "Usability research turned into a resident app and staff dashboards — Flutter on mobile, Next.js and Spring Boot on the web — including the billing flow both sides depend on.",
+    "Turned a dorm office's spreadsheet-and-email billing into one system where staff and residents can see every bill's status.",
   description:
-    "Smart Dorm case study: usability research turned into a Flutter resident app and Next.js + Spring Boot dashboards, including billing. By Krit Poka.",
-  role: "UX research, front-end engineering",
-  team: "[TEAM SIZE + ROLES]",
-  timeline: "[START – END]",
-  stack: ["Next.js", "Spring Boot", "Flutter", "Clean Architecture", "BLoC", "Figma"],
-  links: [{ label: "Live" }, { label: "GitHub" }, { label: "Figma" }],
+    "Smart Dorm case study: replacing a dorm office's monthly Excel copy-and-email billing with one system where staff and residents see every bill's status. Figma, Next.js, Spring Boot.",
+  role: "UX/UI design, part of the database design, workflow design, front-end integrated with the back end",
+  team: "4 people",
+  timeline: "About 2 months · 2025",
+  stack: ["Figma", "Next.js", "Spring Boot", "Flutter (follow-up student app)"],
+  links: [{ label: "Flutter app on GitHub", href: "https://github.com/kritpoka/ku-dorm-frontend" }],
 };
 
-<BrowserPhoneHero caption="Hero: looping capture of the staff dashboard alongside the resident app." />
+<BrowserPhoneHero caption="Staff billing dashboard alongside the follow-up student app." />
 
-<Section n="01" title="TL;DR">
+<Section n="01" title="TL;DR" id="tldr">
 
-- Ran usability studies before writing code, so the dashboards were shaped by what residents and staff actually struggled with.
-- Built front-end modules and the billing flow for resident and staff dashboards on Next.js + Spring Boot.
-- Structured the Flutter app with Clean Architecture and BLoC so features could be built and tested independently.
+- Dorm staff ran billing by hand: data in Excel, then individual emails to tell residents what they owed.
+- I designed the UI and workflow, helped design the database, and built front-end modules wired to the back end, including billing for staff and resident dashboards.
+- We tested the design with the actual dorm staff and shaped the system around the problems they described.
 
 </Section>
 
 <Section n="02" title="Context & problem">
 
-Residents and staff need different things from the same data. Residents want to know what they owe and what's happening with their requests; staff need to see every room, bill and request at once. <Ph>[PROBLEM DETAIL — how billing and requests worked before]</Ph>
+Every month, the dormitory staff copied the previous month's sheet into a new one and updated each resident's details by hand — the same repetitive work, month after month.
+
+That spreadsheet was the whole system. Resident and billing data lived in Excel, and staff used it to email each resident their payment notice. The tools were separate from each other, so nobody could track where a bill or request stood — whether it had been sent, seen or paid — without checking several places.
 
 </Section>
 
 <Section n="03" title="My role">
 
-I planned and ran the usability studies, turned the findings into flows in Figma, then built front-end modules — including billing — for the resident and staff dashboards. In the Flutter app I built the login, room, payment and profile screens, with the user feature wired through BLoC.
+In a team of four, I owned the UI design and the workflow — how a bill moves from staff to resident and back. I designed part of the database and built front-end modules connected to the back end, including the billing features in both the staff and resident dashboards.
 
 </Section>
 
 <Section n="04" title="Users & research">
 
-Two groups: residents, mostly on their phones, and dorm staff, mostly at a desk. I ran usability studies with <Ph>[N]</Ph> participants on <Ph>[PROTOTYPE / EXISTING PROCESS]</Ph>.
+Two groups use the system: **dormitory staff**, who issue and track bills, and **residents**, who receive and pay them.
 
-<Findings items={["[FINDING — what users struggled with]", "[FINDING]", "[FINDING]"]} />
+We ran usability testing with the real dorm staff on our design, to check it actually solved the problems they had described.
+
+<Findings
+  items={[
+    "The most painful task was the monthly rollover. Staff copied last month's data into a new month and re-checked every resident's details by hand, every single month. That made one source of resident data, which each new month builds on, a core requirement rather than a nice-to-have.",
+  ]}
+/>
 
 </Section>
 
 <Section n="05" title="Decisions & trade-offs">
 
 <Decision
-  title="Split platforms by audience"
-  options="One cross-platform app for everyone · Web for everyone · Different surface per audience"
-  choice="Flutter app for residents; Next.js web for resident and staff dashboards"
-  why="Staff work through dense tables at a desk; residents check a bill on their phone. Each surface could fit its job without compromising the other."
+  title="One system instead of separate tools"
+  why="Resident data, bills, notices and payment status live in one place. A new month starts from current resident data instead of a copied spreadsheet, and every bill has a status both sides can see, replacing the Excel + email loop."
 />
 <Decision
-  title="Clean Architecture + BLoC in the app"
-  options="setState / Provider · Riverpod · Clean Architecture with BLoC"
-  choice="Clean Architecture with BLoC"
-  why="Hard boundaries between UI, business rules and data let features move in parallel, kept logic unit-testable, and let the API change without touching screens. The cost: more files per feature."
-/>
-<Decision
-  title="Test before build"
-  options="Build from assumptions and iterate · Usability study first"
-  choice="Usability studies on prototypes first"
-  why="Billing is where mistakes cost trust. Fixing a flow in a prototype is cheaper than rewriting shipped screens."
+  title="Status tracking as a first-class feature"
+  why="The main problem wasn't data entry, it was not knowing what state things were in, so the workflow was designed around visible status at each step."
 />
 
 </Section>
@@ -73,31 +71,14 @@ Two groups: residents, mostly on their phones, and dorm staff, mostly at a desk.
 
 <SmartDormDiagram />
 
-</Section>
-
-<Section n="07" title="Build highlights">
-
-- **Billing module.** <Ph>[DETAIL — invoices, payment status, history]</Ph>
-- **One product, two dashboards.** Shared components between resident and staff views so both read as the same system.
-- **BLoC per feature.** Business logic lives outside widgets, so it can be unit-tested without a device.
+A Next.js web front end serves the staff and resident dashboards and talks to a Spring Boot back end and its database. A follow-up Flutter student app (`ku-dorm-frontend`, 2026) uses Clean Architecture with BLoC, GetIt and Injectable, with screens for login, room, payment and profile.
 
 </Section>
 
-<Section n="08" title="Outcome">
+<Section n="07" title="Outcome">
 
-<Outcome
-  items={[
-    { value: "[METRIC]", label: "Task success, before → after" },
-    { value: "[METRIC]", label: "Residents / staff using it" },
-    { value: "[QUOTE]", label: "From a resident or staff member" },
-  ]}
-/>
-
-</Section>
-
-<Section n="09" title="What I'd change">
-
-- Run a second study after launch with real billing data, not prototype data.
-- Share one set of design tokens between Flutter and Next.js early, instead of matching styles by hand.
+- Replaced manual Excel tracking, the monthly copy-and-update routine, and per-resident billing emails with in-system billing and status tracking.
+- Validated with real dorm staff through usability testing.
+- <Ph>[ADD ANY RESULT — e.g. staff feedback, time saved, whether it was adopted]</Ph>
 
 </Section>
