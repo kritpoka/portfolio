@@ -67,8 +67,8 @@ export const selectedWork: SelectedWork[] = [
       placeholder: "[SCREENSHOT] POS checkout + QR",
       media: {
         type: "image",
-        src: media.posOrdering,
-        alt: "Kasetfair POS ordering screen on a phone: a menu of Thai dishes with photos and prices",
+        src: media.posDashboard,
+        alt: "Kasetfair POS dashboard on a phone: order count, total sales and average sale per bill, with test orders",
         fit: "contain",
       },
     },

@@ -30,22 +30,22 @@ export const meta = {
 };
 
 <PhonesHero
-  caption="Product list, ordering and cart on a phone. The stall was cancelled, so everything shown is test data."
+  caption="Dashboard, ordering and cart on a phone. Product photos are blurred, and the stall was cancelled, so everything shown is test data."
   phones={[
     {
       type: "image",
-      src: media.posProducts,
-      alt: "Product list screen: a table of products with photo, id, Thai name, price in baht and an edit button.",
+      src: media.posDashboard,
+      alt: "Dashboard screen: order count, total sales and average sale per bill, above a list of past orders marked paid via PromptPay.",
     },
     {
       type: "image",
       src: media.posOrdering,
-      alt: "Ordering screen: a two-column menu of Thai dishes with photos and prices, and a bottom tab bar.",
+      alt: "Ordering screen: a two-column menu of dishes with blurred photos, Thai names and prices, and a bottom tab bar.",
     },
     {
       type: "image",
       src: media.posCart,
-      alt: "Cart screen: three items with quantity steppers, line totals and delete buttons.",
+      alt: "Cart screen: three items with blurred photos, quantity steppers, line totals and delete buttons.",
     },
   ]}
 />
@@ -83,14 +83,14 @@ A solo project: I designed and built it end to end, from the stall team's requir
 <PhoneShots
   shots={[
     {
-      image: media.posDashboard,
-      alt: "Dashboard screen: order count, total sales and average sale per bill, above a paginated list of past orders marked paid via PromptPay.",
-      caption: "Dashboard — test orders only, not real sales.",
+      image: media.posProducts,
+      alt: "Product list screen: a table of products with blurred photos, id, Thai name, price in baht and an edit button.",
+      caption: "Product list. Photos blurred.",
     },
     {
       image: media.posEdit,
-      alt: "Edit product screen: a large product photo above name, price and image URL fields, with a delete button.",
-      caption: "Editing a product.",
+      alt: "Edit product screen: a blurred product photo above name, price and image fields, with a delete button.",
+      caption: "Editing a product. Photo blurred.",
     },
   ]}
 />
@@ -130,6 +130,15 @@ A Next.js app built from client components keeps the cart in a Zustand store and
 
 - Built and working end to end in about two weeks, and deployed at [ku-media-pos.vercel.app](https://ku-media-pos.vercel.app).
 - Never used at the fair, because the stall was cancelled.
-- No real sales data: the dashboard above shows test orders only.
+- No real sales data: the dashboard screenshot shows test orders only.
+
+</Section>
+
+<Section n="08" title="What I'd change">
+
+- Add per-role policies, so a cashier and an owner can do different things.
+- Turn on Realtime so several phones stay in sync.
+- Add an offline mode for weak fair Wi-Fi.
+- Add real stock tracking with quantities.
 
 </Section>
