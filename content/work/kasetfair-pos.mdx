@@ -1,74 +1,119 @@
+import { media } from "@/content/media";
+
 export const meta = {
   slug: "kasetfair-pos",
   order: 3,
   title: "Kasetfair POS",
   shortTitle: "Kasetfair POS",
   year: "2026",
-  readTime: "5 min read",
-  summary:
-    "A point-of-sale for Kaset Fair vendors — real-time stock, PromptPay QR checkout and a sales dashboard, with each vendor's data walled off by row-level security.",
+  readTime: "4 min read",
+  summary: "A phone-first point-of-sale system for a Kaset Fair stall, built in two weeks from real requirements.",
   description:
-    "Kasetfair POS case study: a Next.js + Supabase point-of-sale for Kaset Fair vendors with real-time stock, PromptPay QR checkout and a sales dashboard.",
-  role: "Design and engineering",
-  team: "Solo",
-  timeline: "[START – END]",
-  stack: ["Next.js", "TypeScript", "Supabase", "Postgres RLS", "Zustand", "PromptPay QR"],
+    "Kasetfair POS case study: a phone-first point-of-sale for a Kaset Fair stall — orders, products, PromptPay QR payments and a sales dashboard on Next.js and Supabase, built solo in two weeks.",
+  role: "Solo — design and engineering",
+  timeline: "About 2 weeks · Dec 2025 – Jan 2026",
+  stack: [
+    "Next.js (App Router)",
+    "TypeScript",
+    "React 19",
+    "Supabase (Auth, Postgres)",
+    "Zustand",
+    "Tailwind CSS",
+    "shadcn/ui",
+    "Recharts",
+    "promptpay-qr",
+  ],
   links: [
     { label: "Live", href: "https://ku-media-pos.vercel.app" },
     { label: "GitHub", href: "https://github.com/kritpoka/ku-media-pos" },
-    { label: "Figma" },
   ],
 };
 
-<TabletPhoneHero caption="Hero: a sale from cart to PromptPay QR, looping." />
+<PhonesHero
+  caption="Product list, ordering and cart on a phone. The stall was cancelled, so everything shown is test data."
+  phones={[
+    {
+      type: "image",
+      src: media.posProducts,
+      alt: "Product list screen: a table of products with photo, id, Thai name, price in baht and an edit button.",
+    },
+    {
+      type: "image",
+      src: media.posOrdering,
+      alt: "Ordering screen: a two-column menu of Thai dishes with photos and prices, and a bottom tab bar.",
+    },
+    {
+      type: "image",
+      src: media.posCart,
+      alt: "Cart screen: three items with quantity steppers, line totals and delete buttons.",
+    },
+  ]}
+/>
 
 <Section n="01" title="TL;DR" id="tldr">
 
-- A web POS vendors can run on a phone or tablet at a fair stall.
-- Real-time inventory, PromptPay QR payments and a sales dashboard.
-- Supabase auth with row-level security, so vendors only ever see their own data.
+- A stall at Kaset Fair needed a simple way to take orders, keep its product list up to date and get paid without cash.
+- I built a mobile-first POS: menu and cart, product management, PromptPay QR payments to the shop's real account, and a sales dashboard.
+- The stall was cancelled before the fair, so it never ran live — but it was built and tested against real requirements.
 
 </Section>
 
 <Section n="02" title="Context & problem">
 
-Kaset Fair stalls are crowded and fast. <Ph>[PROBLEM DETAIL — how vendors tracked stock and sales before]</Ph>
+The system was built for a real stall at Kaset Fair. The requirements came from the people running it: staff log in with set accounts, orders are taken on a phone, and customers pay by scanning a PromptPay QR code generated for the exact amount and paid into the shop's real bank account.
+
+The stall was cancelled before the fair opened, so the system never went live, but every requirement was real.
 
 </Section>
 
 <Section n="03" title="My role">
 
-A solo project: I designed and built it end to end — ordering and cart, stock management, PromptPay payment, the sales dashboard and sign-in.
+A solo project: I designed and built it end to end, from the stall team's requirements to the deployed app.
 
 </Section>
 
-<Section n="04" title="Users & research">
+<Section n="04" title="What it does">
 
-Vendors and stall staff, often serving a queue on one device. Research: <Ph>[METHOD + N]</Ph>.
+- Menu and cart for fast order taking; orders are saved with their items and payment status.
+- Product management: add, edit and delete products.
+- A PromptPay QR generated for each order, for the exact amount.
+- A dashboard that reflects every order: order count, total sales, average sale per bill and a paginated order history.
+- Sign-in with fixed staff accounts.
 
-<Findings items={["[FINDING]", "[FINDING]", "[FINDING]"]} />
+<PhoneShots
+  shots={[
+    {
+      image: media.posDashboard,
+      alt: "Dashboard screen: order count, total sales and average sale per bill, above a paginated list of past orders marked paid via PromptPay.",
+      caption: "Dashboard — test orders only, not real sales.",
+    },
+    {
+      image: media.posEdit,
+      alt: "Edit product screen: a large product photo above name, price and image URL fields, with a delete button.",
+      caption: "Editing a product.",
+    },
+  ]}
+/>
 
 </Section>
 
 <Section n="05" title="Decisions & trade-offs">
 
 <Decision
-  title="Supabase over a custom backend"
-  options="Custom API + database · Firebase · Supabase"
-  choice="Supabase — Postgres, auth and row-level security"
-  why="Vendor isolation is enforced by the database, not by remembering to filter every query. Fewer moving parts for a fair that runs on a deadline."
+  title="Supabase instead of a custom back end"
+  why="Auth and a Postgres database without running a server — the right size for a two-week build."
 />
 <Decision
-  title="Zustand for client state"
-  options="Redux Toolkit · React Context · Zustand"
-  choice="Zustand"
-  why="Cart and session state are small and change constantly; Zustand keeps updates local with almost no boilerplate."
+  title="Row Level Security on every table"
+  why="RLS is enabled on products, orders and order_items, and the policies allow reads and writes only for signed-in users — only signed-in staff can read or change data. It's a single-shop app, so policies are per role rather than per vendor."
 />
 <Decision
-  title="PromptPay QR for payment"
-  options="Card terminal · Cash only · PromptPay QR"
-  choice="PromptPay QR"
-  why="No extra hardware, and it is how Thai customers already pay at stalls."
+  title="PromptPay QR in the browser"
+  why="The QR is generated client-side for each order's total, so payment needs no payment gateway and no fees."
+/>
+<Decision
+  title="Phone first"
+  why="Staff run the stall from their phones, so the whole flow — menu, cart, payment, dashboard — was designed for one hand on a small screen, with a bottom tab bar."
 />
 
 </Section>
@@ -77,31 +122,14 @@ Vendors and stall staff, often serving a queue on one device. Research: <Ph>[MET
 
 <KasetfairPosDiagram />
 
-</Section>
-
-<Section n="07" title="Build highlights">
-
-- **Row-level security policies.** Every table is scoped to the signed-in vendor at the database.
-- **QR at checkout.** The PromptPay QR is generated from the sale total, so staff never type an amount twice.
-- **Live stock.** Inventory updates as sales happen. <Ph>[VERIFY mechanism]</Ph>
+A Next.js app built from client components keeps the cart in a Zustand store and talks to Supabase Auth and Postgres (`products`, `orders`, `order_items`, all with RLS) through the Supabase JS client. promptpay-qr generates the QR in the browser, and the app is deployed on Vercel.
 
 </Section>
 
-<Section n="08" title="Outcome">
+<Section n="07" title="Outcome">
 
-<Outcome
-  items={[
-    { value: "[METRIC]", label: "Vendors using it" },
-    { value: "[METRIC]", label: "Transactions processed" },
-    { value: "[QUOTE]", label: "From a vendor" },
-  ]}
-/>
-
-</Section>
-
-<Section n="09" title="What I'd change">
-
-- An offline queue for patchy fair Wi-Fi, syncing sales when the connection returns.
-- Automatic payment confirmation instead of checking the transfer by eye.
+- Built and working end to end in about two weeks, and deployed at [ku-media-pos.vercel.app](https://ku-media-pos.vercel.app).
+- Never used at the fair, because the stall was cancelled.
+- No real sales data: the dashboard above shows test orders only.
 
 </Section>
