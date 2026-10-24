@@ -36,7 +36,7 @@ export default function CaseHeader({ meta }: { meta: CaseMeta }) {
         className="mt-8 mb-0 grid grid-cols-[repeat(auto-fit,minmax(150px,1fr))] gap-x-6 gap-y-5 border-t border-line pt-5"
       >
         <Fact term="Role" value={meta.role} />
-        <Fact term="Team" value={meta.team} />
+        {meta.team && <Fact term="Team" value={meta.team} />}
         <Fact term="Timeline" value={meta.timeline} />
         <div className="col-span-full">
           <dt className="label text-[11px]">Stack</dt>
@@ -74,8 +74,8 @@ export default function CaseHeader({ meta }: { meta: CaseMeta }) {
           role="note"
           className="mt-7 flex items-start gap-3 rounded-[10px] border border-line bg-surface px-4 py-3.5"
         >
-          <span className="label flex-none text-[11px] leading-[1.9]">Note</span>
-          <span className="text-[15px] leading-[1.6]">{meta.note}</span>
+          <span className="label flex-none text-[11px] leading-[1.9]">{meta.note.label}</span>
+          <span className="text-[15px] leading-[1.6]">{meta.note.text}</span>
         </div>
       )}
     </header>

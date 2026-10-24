@@ -14,7 +14,7 @@ function HeroFigure({ caption, children }: { caption: string; children: React.Re
 }
 
 const WIDE = "(min-width: 1040px) 720px, 75vw";
-const PHONE = "(min-width: 1040px) 190px, 20vw";
+const PHONE = "(min-width: 1040px) 240px, 24vw";
 
 /** Smart Dorm: staff dashboard in a browser window, resident app on a phone in front. */
 export function BrowserPhoneHero({ web, app, caption }: { web?: Media; app?: Media; caption: string }) {
@@ -29,7 +29,7 @@ export function BrowserPhoneHero({ web, app, caption }: { web?: Media; app?: Med
               <span className="size-[9px] rounded-full bg-line" />
             </div>
             <div className="relative flex-1">
-              <MediaSlot media={web} placeholder="[SCREENSHOT / VIDEO] Staff dashboard — billing" sizes={WIDE} priority />
+              <MediaSlot media={web} placeholder="[SCREENSHOT / VIDEO] Staff dashboard — billing" sizes={WIDE} />
             </div>
           </div>
           <div className="relative -mb-[6cqw] -ml-[8cqw] aspect-[9/19] w-[19.2cqw] flex-none overflow-hidden rounded-[3cqw] border-[max(3px,0.7cqw)] border-ink bg-raise shadow-card">
@@ -41,18 +41,26 @@ export function BrowserPhoneHero({ web, app, caption }: { web?: Media; app?: Med
   );
 }
 
-/** Kasetfair POS: checkout on a tablet, PromptPay QR on a phone. */
-export function TabletPhoneHero({ tablet, phone, caption }: { tablet?: Media; phone?: Media; caption: string }) {
+/**
+ * Kasetfair POS: three phone screenshots side by side, the middle one raised.
+ * Phones keep the screenshots' own aspect ratio.
+ */
+export function PhonesHero({ phones, caption }: { phones: [Media, Media, Media]; caption: string }) {
   return (
     <HeroFigure caption={caption}>
       <div className="@container relative aspect-video overflow-hidden rounded-2xl border border-line bg-surface">
-        <div className="flex h-full items-center justify-center px-[4.8cqw] py-[5.6cqw]">
-          <div className="relative aspect-[4/3] max-h-full flex-[0_1_64.5cqw] overflow-hidden rounded-[2.4cqw] border-[max(4px,1cqw)] border-ink bg-raise">
-            <MediaSlot media={tablet} placeholder="[SCREENSHOT / VIDEO] POS checkout on a tablet" sizes={WIDE} priority />
-          </div>
-          <div className="relative mt-[12cqw] -ml-[6cqw] aspect-[9/19] w-[17.1cqw] flex-none overflow-hidden rounded-[2.8cqw] border-[max(3px,0.7cqw)] border-ink bg-raise shadow-card">
-            <MediaSlot media={phone} placeholder="[SCREENSHOT] PromptPay QR" sizes={PHONE} />
-          </div>
+        <div className="flex h-full items-start justify-center gap-[3.5cqw] px-[4.8cqw] pt-[5cqw]">
+          {phones.map((phone, i) => (
+            <div
+              key={phone.alt}
+              className={
+                "relative aspect-[780/1480] flex-none overflow-hidden rounded-[2.8cqw] border-[max(3px,0.7cqw)] border-ink bg-ink shadow-card " +
+                (i === 1 ? "w-[24cqw]" : "mt-[6cqw] w-[21cqw]")
+              }
+            >
+              <MediaSlot media={phone} placeholder="[SCREENSHOT]" sizes={PHONE} />
+            </div>
+          ))}
         </div>
       </div>
     </HeroFigure>

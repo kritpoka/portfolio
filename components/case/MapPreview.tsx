@@ -36,7 +36,6 @@ export default function MapPreview({ poster, skipTo = "#tldr" }: { poster?: Medi
               media={poster}
               placeholder="[POSTER] Static render of the 3D campus"
               sizes="(min-width: 1040px) 992px, 100vw"
-              priority
             />
           )}
         </div>

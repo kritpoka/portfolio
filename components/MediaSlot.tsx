@@ -2,7 +2,15 @@ import Image, { type StaticImageData } from "next/image";
 import LoopVideo from "./LoopVideo";
 
 export type Media =
-  | { type: "image"; src: StaticImageData; alt: string }
+  | {
+      type: "image";
+      src: StaticImageData;
+      alt: string;
+      /** "contain" centres the whole image (e.g. a phone screenshot in a 4:3 box). Default "cover". */
+      fit?: "cover" | "contain";
+      /** CSS object-position for "cover". Default "top". */
+      position?: string;
+    }
   | { type: "video"; mp4: string; webm?: string; poster: StaticImageData; alt: string };
 
 type Props = {
@@ -10,14 +18,15 @@ type Props = {
   /** Shown as a dashed "[SCREENSHOT] …" chip until real media is added. Listed in README. */
   placeholder: string;
   sizes: string;
-  priority?: boolean;
 };
 
 /**
- * Fills its (relatively positioned) parent. With no media it renders a clearly
- * marked placeholder instead of an invented image.
+ * Fills its (relatively positioned) parent. Always lazy, hero images included:
+ * on phones the case-study title is the LCP and the hero sits below it, so
+ * preloading the image measurably slowed LCP (3.1 s vs 2.8 s, Lighthouse mobile).
+ * With no media it renders a clearly marked placeholder instead of an invented image.
  */
-export default function MediaSlot({ media, placeholder, sizes, priority }: Props) {
+export default function MediaSlot({ media, placeholder, sizes }: Props) {
   if (!media) {
     return (
       <div
@@ -40,9 +49,9 @@ export default function MediaSlot({ media, placeholder, sizes, priority }: Props
       alt={media.alt}
       fill
       sizes={sizes}
-      priority={priority}
-      placeholder="blur"
-      className="object-cover object-top"
+      placeholder={media.src.blurDataURL ? "blur" : "empty"}
+      className={media.fit === "contain" ? "object-contain p-3" : "object-cover"}
+      style={media.fit === "contain" ? undefined : { objectPosition: media.position ?? "top" }}
     />
   );
 }

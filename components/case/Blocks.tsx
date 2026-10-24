@@ -34,9 +34,22 @@ export function Findings({ items }: { items: string[] }) {
   );
 }
 
-/** One decision: options considered, the choice, and why. */
-export function Decision({ title, options, choice, why }: { title: string; options: string; choice: string; why: string }) {
+type DecisionProps = { title: string; options?: string; choice?: string; why: string };
+
+/**
+ * One decision. With options and choice it renders the Options / Choice / Why
+ * grid; with only `why` it renders the reasoning as a paragraph.
+ */
+export function Decision({ title, options, choice, why }: DecisionProps) {
   const dt = "font-mono text-[11px] leading-[2] font-medium tracking-[0.06em] uppercase text-muted";
+  if (!options || !choice) {
+    return (
+      <div className="border-b border-line py-5">
+        <h3 className="mt-0 mb-2 text-[17px] font-medium">{title}</h3>
+        <p className="m-0 text-[15px] leading-[1.6] text-pretty">{why}</p>
+      </div>
+    );
+  }
   return (
     <div className="border-b border-line py-5">
       <h3 className="mt-0 mb-3 text-[17px] font-medium">{title}</h3>

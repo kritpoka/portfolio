@@ -20,12 +20,13 @@ export type CaseMeta = {
   /** Meta description and Open Graph description. */
   description: string;
   role: string;
-  team: string;
+  /** Omit when the role already says it (solo projects). */
+  team?: string;
   timeline: string;
   stack: string[];
   links: CaseLink[];
   /** Shown instead of links, e.g. "Internal work — no public links". */
   linksNote?: string;
-  /** Callout under the header (ttb confidentiality note). */
-  note?: string;
+  /** Callout under the header, e.g. { label: "Note", text: "…confidentiality…" }. */
+  note?: { label: string; text: string };
 };
