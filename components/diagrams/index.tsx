@@ -1,18 +1,20 @@
-import { Ph } from "@/components/case/Ph";
 import { Arrow, DiagramFrame, Flow, Node, Stack } from "./primitives";
 
 export function SmartDormDiagram() {
   return (
-    <DiagramFrame label="Smart Dorm architecture: resident app and web dashboards call a Spring Boot API backed by a database">
+    <DiagramFrame
+      label="Smart Dorm architecture: Next.js staff and resident dashboards call a Spring Boot back end and one database; a follow-up Flutter app uses the same back end"
+      caption="The Flutter student app is a follow-up (2026): Clean Architecture with BLoC, GetIt and Injectable."
+    >
       <Flow cols="minmax(0,1.2fr) 28px minmax(0,1fr) 28px minmax(0,0.9fr)">
         <Stack>
-          <Node title="Resident app" sub="Flutter · UI → BLoC → Domain → Data" />
-          <Node title="Resident + staff web" sub="Next.js dashboards · billing module" />
+          <Node title="Staff + resident web" sub="Next.js dashboards · billing" tone="focus" />
+          <Node title="Student app (follow-up)" sub="Flutter · login, room, payment, profile" />
         </Stack>
         <Arrow />
-        <Node title="API" sub="Spring Boot · REST" tone="focus" />
+        <Node title="Back end" sub="Spring Boot" />
         <Arrow />
-        <Node title="Database" sub={<Ph>[VERIFY]</Ph>} tone="unverified" />
+        <Node title="Database" sub="Residents, bills, notices, payment status" />
       </Flow>
     </DiagramFrame>
   );
@@ -21,18 +23,23 @@ export function SmartDormDiagram() {
 export function KuCampusMapDiagram() {
   return (
     <DiagramFrame
-      label="KU Campus Map architecture: OpenStreetMap data feeds a React and Vite app with a three.js scene, deployed on Vercel"
-      caption="Between OSM and the scene, a script fetches the map data once through Overpass and compacts it into one TopoJSON file. The app never calls Overpass."
+      label="KU Campus Map architecture: build-time scripts produce static data files; a React UI shell talks to a lazily loaded 3D scene through a small map API; hosted statically on Vercel"
+      caption="Everything is built ahead of time. The app never calls a map API at runtime."
     >
-      <Flow cols="minmax(0,1fr) 28px minmax(0,1.2fr) 28px minmax(0,1fr)">
-        <Node title="OpenStreetMap" sub="Buildings, paths, POIs" />
-        <Arrow />
+      <Flow cols="minmax(0,1fr) 28px minmax(0,0.8fr) 28px minmax(0,1.2fr) 28px minmax(0,0.7fr)">
         <Stack>
-          <Node title="React + Vite app" sub="Search · category filter · TH/EN" tone="focus" />
-          <Node title="Three.js scene" sub="Landmarks · shuttle routes · camera" />
+          <Node title="Build scripts" sub="OSM fetch → trees, fade mask, TopoJSON" />
+          <Node title="Shuttle tracer" sub="Python · official route images" />
         </Stack>
         <Arrow />
-        <Node title="Vercel" sub="ku-map-beta.vercel.app" />
+        <Node title="Static data" sub="One TopoJSON file · places · shuttle lines" />
+        <Arrow />
+        <Stack>
+          <Node title="React UI shell" sub="Search · filters · cards · TH/EN" tone="focus" />
+          <Node title="3D scene (lazy)" sub="React Three Fiber · via a small map API" />
+        </Stack>
+        <Arrow />
+        <Node title="Vercel" sub="Static hosting" />
       </Flow>
     </DiagramFrame>
   );
@@ -40,26 +47,20 @@ export function KuCampusMapDiagram() {
 
 export function KasetfairPosDiagram() {
   return (
-    <DiagramFrame label="Kasetfair POS architecture: a Next.js client with a Zustand store and PromptPay QR talks to Supabase auth, Postgres with row-level security, and realtime">
-      <Flow cols="minmax(0,1fr) 28px minmax(0,1.2fr)">
+    <DiagramFrame
+      label="Kasetfair POS architecture: a Next.js app with a Zustand cart and in-browser PromptPay QR talks to Supabase Auth and Postgres through the Supabase JS client"
+      caption="Row Level Security is on for every table; policies allow only signed-in staff to read or change data."
+    >
+      <Flow cols="minmax(0,1fr) 28px minmax(0,1.1fr)">
         <Stack>
-          <Node title="Next.js client" sub="TypeScript · checkout · dashboard" tone="focus" />
-          <Node title="Zustand store" sub="Cart · session" />
-          <Node title="PromptPay QR" sub="Payload from sale amount" />
+          <Node title="Next.js app" sub="Client components · deployed on Vercel" tone="focus" />
+          <Node title="Zustand store" sub="Cart" />
+          <Node title="promptpay-qr" sub="QR for each order's total, in the browser" />
         </Stack>
         <Arrow both />
         <Stack>
-          <Node title="Supabase Auth" sub="Vendor accounts" />
-          <Node title="Postgres + RLS" sub="Products · inventory · sales, scoped per vendor" />
-          <Node
-            title="Realtime"
-            sub={
-              <>
-                Inventory updates <Ph>[VERIFY]</Ph>
-              </>
-            }
-            tone="unverified"
-          />
+          <Node title="Supabase Auth" sub="Fixed staff accounts" />
+          <Node title="Postgres + RLS" sub="products · orders · order_items" />
         </Stack>
       </Flow>
     </DiagramFrame>
@@ -69,8 +70,8 @@ export function KasetfairPosDiagram() {
 const LAYERS = [
   { name: "UI", detail: "Widgets, screens" },
   { name: "Presentation", detail: "BLoC / Cubit" },
-  { name: "Domain", detail: "Entities, use cases, repository interfaces" },
-  { name: "Data", detail: "Repositories, Firebase / API sources" },
+  { name: "Domain", detail: "Entities, use cases" },
+  { name: "Data", detail: "Models, remote + local data sources, repositories" },
 ];
 
 /** Generic Clean Architecture layers. Self-drawn; shows no ttb product detail. */
@@ -78,7 +79,7 @@ export function CleanArchitectureDiagram() {
   return (
     <DiagramFrame
       label="Clean Architecture layers, top to bottom: UI, Presentation, Domain, Data"
-      caption="Clean Architecture — call flow top to bottom. Domain has no Flutter or Firebase imports."
+      caption="Clean Architecture — call flow top to bottom. Remote and local data sources are split so data can be cached."
     >
       <ol className="m-0 flex list-none flex-col gap-1.5 p-0">
         {LAYERS.map((l, i) => (
