@@ -8,7 +8,10 @@
 
 ## Sources of truth
 - **Layout, type, colour and copy:** the Claude Design project "Engineer's Notebook" (`Home.dc.html`, `Case*.dc.html`). Match it; don't restyle.
-- **Facts:** `SOURCES.md` (local only, not committed) and Krit's own notes. If a fact isn't there, ask Krit.
+- **Facts:** `sources/notes/<slug>.md`, Krit's case study notes. Keep his facts exactly and edit only for flow. `SOURCES.md` indexes the other sources. Both are local only, never committed. If a fact isn't there, ask Krit.
+- **Notes markers:**
+  - `[ADD …]` / `[ASK KRIT …]`: keep a dashed chip in that section, or hide the section if it would be empty, and list it in the README.
+  - Lines addressed to Krit ("Krit: confirm…") are questions, not site copy.
 - **Placeholders:** every remaining one is listed in `README.md` → Content to add. Keep that list in sync when you add or fill one.
 
 ## Content rules
@@ -19,6 +22,15 @@
   - No screenshots or product visuals.
   - No internal names beyond those already on the page.
   - Keep the note "Product details and visuals omitted under confidentiality."
+- **Kasetfair POS accuracy** (checked in Supabase and the code):
+  - Realtime is off: never say "real-time".
+  - Products have no stock quantity, so don't claim stock updates after a sale. "The dashboard reflects every order" is accurate.
+  - RLS: only signed-in staff can read or change data. Never say each vendor's data is isolated.
+  - The stall was cancelled, so the dashboard screenshots are test data and never results.
+- **KU Campus Map:** always use the full role, "Solo — product, design direction, data review and testing; code written with Claude Code (AI-assisted)". Never shorten it to "Solo".
+- **Images:**
+  - Don't use the KU Map landmark photos (other photographers).
+  - Food photos in the POS screenshots are from third-party sites, pending Krit's OK.
 - **Activities:** Krit was a working-group member, not an executive, in KU Tech club and KU Hackathon.
 - **Never commit `sources/`:** the internship report and poster are internal, and the old resume has GPA and phone.
 
@@ -63,17 +75,17 @@ Each project is `content/work/<slug>.mdx`:
    - role, team, timeline, stack, links
    - optional: linksNote, note, longTitle
    - A link without `href` renders as a dashed "[LINK]".
-2. **Optional hero** (outside the text column): `<BrowserPhoneHero>`, `<TabletPhoneHero>` or `<MapPreview>`. ttb has none.
-3. **Nine sections**, in this order: `<Section n="01" title="TL;DR" id="tldr">` … `09`.
-   - 01 TL;DR: three bullets
-   - 02 Context & problem
-   - 03 My role
-   - 04 Users & research: text plus `<Findings items={[…]} />`
-   - 05 Decisions & trade-offs: three `<Decision title options choice why />`
-   - 06 Architecture: a diagram component from `components/diagrams`
-   - 07 Build highlights: bullets, `**Lead.**` then detail
-   - 08 Outcome: `<Outcome items={[{ value, label }]} />`
-   - 09 What I'd change
+2. **Optional hero** (outside the text column): `<BrowserPhoneHero>`, `<PhonesHero>` or `<MapPreview>`. ttb has none.
+3. **Numbered sections**, in this order: `<Section n="01" title="TL;DR" id="tldr">` and on. Hide a section rather than leave it empty, and renumber the rest.
+   - TL;DR: three bullets
+   - Context & problem
+   - My role
+   - Users & research, when there was research (Smart Dorm): text plus `<Findings items={[…]} />`
+   - What it does / How I built it / What I built: project-specific, from the notes. Screenshots go here as `<Screenshot image alt caption />` or `<PhoneShots shots={[…]} />`, with images from `content/media.ts`.
+   - Decisions & trade-offs: `<Decision title why />`, adding `options` and `choice` when they're known
+   - Architecture: a diagram component from `components/diagrams`
+   - Outcome: `<Outcome items={[{ value, label }]} />` for measured numbers, otherwise bullets
+   - What I'd change
 4. The page adds the header, the next-project card (in `order`, wrapping around), the footer, and analytics.
 
 All template components are registered in `mdx-components.tsx`, so MDX files need no imports except media.
