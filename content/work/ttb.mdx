@@ -12,52 +12,87 @@ export const meta = {
   year: "May–Oct 2026",
   readTime: "5 min read",
   summary:
-    "Six months on the Tablet Platform Digital Solution team: in-house developer tools, an activity log that replaced versioned Excel files, and real-time platform features.",
+    "Three new internal tools, one shared data source for the BA team and two features on a live enterprise platform, in five and a half months.",
   description:
-    "ttb internship case study: Flutter developer tools, an Activity Log that replaced versioned Excel files, and real-time platform features. Text and generic diagrams only.",
+    "ttb internship case study: three Flutter developer tools, an Activity Log that replaced versioned Excel files, and two features on a live enterprise platform. Text and generic diagrams only.",
   role: "Software Engineer Tech Intern",
   team: "Tablet Platform Digital Solution",
-  timeline: "May–Oct 2026 · ttb spark Tech & Data Internship",
+  timeline: "16 May – 31 Oct 2026 · ttb spark Tech & Data Internship",
   stack: [
     "Flutter",
-    "Clean Architecture",
+    "Dart",
     "BLoC / Cubit",
+    "Clean Architecture",
+    "GetIt + Injectable",
+    "Dio + Retrofit",
+    "go_router",
     "Firebase",
-    "Firestore",
-    "Remote Config",
     "WebSocket",
-    "Fastlane",
     "Melos",
+    "Fastlane",
+    "GitLab",
     "Jenkins",
+    "Mockito",
   ],
   links: [],
   linksNote: "Internal work — no public links",
-  note: "Product details and visuals omitted under confidentiality. Diagrams below are generic and self-drawn.",
+  note: {
+    label: "Note",
+    text: "Product details and visuals omitted under confidentiality. Diagrams below are generic and self-drawn.",
+  },
 };
 
 <Section n="01" title="TL;DR" id="tldr">
 
-- Built in-house developer tools — CSV↔JSON, regex tester, QR generator — so engineers stopped pasting data into outside websites that didn’t fit bank policy.
-- Replaced the Business Analysis team’s versioned Excel files with one Activity Log on Firestore.
-- On the enterprise platform team: helped move a monorepo to micro-frontend polyrepos and shipped real-time notifications and a cross-tab idle timeout.
+- Built three developer tools into the team's internal app and automated its release pipeline.
+- Owned an Activity Log web app for the Business Analysis team, from requirements to export, replacing many versions of Excel files.
+- Joined the platform team mid-migration and shipped real-time notifications and multi-tab idle timeout.
 
 </Section>
 
 <Section n="02" title="Context & problem">
 
-Two everyday problems. Engineers were using public websites for routine tasks like converting CSV or testing a regex — fine elsewhere, not inside a bank. And the Business Analysis team tracked activity in Excel files passed around as versions, so nobody was sure which copy was current.
+ttb is a large Thai bank. I worked on Flutter apps under the bank's security rules — locked-down machines, restricted websites and installs, and checked network connections — and inside its process: specs in Jira, merge requests, code review and Jenkins pipelines.
+
+Two everyday problems shaped my first projects. Developers relied on outside websites for routine utilities, which didn't fit bank policy and showed ads. And the Business Analysis team edited many versions of Excel files on Confluence, so data conflicted when people edited at once.
 
 </Section>
 
 <Section n="03" title="My role">
 
-Software Engineer Tech Intern in the ttb spark Tech & Data Internship. I built the developer tools and the Activity Log, and contributed features to the enterprise platform. On the Activity Log I owned the work from requirements through navigation, single-device sign-in, the data dictionary, version log, caching and export. For the developer tools I added the CSV↔JSON, regex and QR features, the shared analytics component and the Fastlane + Melos lanes. On the platform team I helped migrate code between releases, built the unread-notification feature from a Jira spec, and made the idle timeout work across tabs.
+Software Engineer Tech Intern in the ttb spark Tech & Data Internship, on the Tablet Platform Digital Solution team. I built three tools and the release automation for the team's internal tools app, owned the Activity Log end to end — requirements, navigation, auth and features — and contributed features to the enterprise platform.
+
+The Business Analysis team described problems in business terms, so I asked questions and confirmed my understanding with wireframes and flows before building, to avoid rework.
 
 </Section>
 
-<Section n="04" title="Users & research">
+<Section n="04" title="What I built">
 
-Internal engineers, the Business Analysis team, and users of the tablet platform. Activity Log requirements came straight from the Business Analysis team; platform features were built from specifications in Jira.
+### Internal developer tools
+
+- **CSV↔JSON parser** with chunked processing and a progress bar.
+- **Regex tester** with presets, flags and highlighting.
+- **QR code generator** with validation.
+- **A shared analytics component** that logs events through Firebase Analytics.
+- **Release automation:** Fastlane + Melos with four lanes — analyze, unit test, version bump, and deploy to Firebase App Distribution.
+
+### Activity Log for the Business Analysis team
+
+- Central data on Cloud Firestore and Realtime Database.
+- A data dictionary with full CRUD and a guard against duplicate fields.
+- A version log that stores only changed rows. I agreed the Firestore data structure with the developer of another feature so history displays correctly.
+- Single-device login tied to the device, with live session tracking.
+- Cache-first data with a stale fallback, and the TTL controlled through Remote Config.
+- Excel export, continuing work started by another intern.
+
+### Enterprise platform team
+
+An all-in-one platform for staff and branches. I joined while the team was moving from a monorepo to micro-frontends.
+
+- Helped migrate code between releases.
+- Studied Git submodules to bring team repositories together for testing.
+- Real-time unread-message notifications with Cubit and WebSocket.
+- An idle timeout that works across several browser tabs.
 
 </Section>
 
@@ -66,8 +101,8 @@ Internal engineers, the Business Analysis team, and users of the tablet platform
 <Decision
   title="Chunked CSV processing"
   options="Parse the whole file in memory · Process in chunks"
-  choice="Chunked processing"
-  why="Large exports shouldn’t freeze the UI or exhaust memory on a tablet; chunks keep the tool responsive at any size."
+  choice="Size limits, chunked processing and a progress bar"
+  why="Flutter Web struggled with large files, so I capped CSV at 10 MB and JSON at 30 MB, processed in chunks and showed progress."
 />
 <Decision
   title="Version log that stores only changed rows"
@@ -78,7 +113,7 @@ Internal engineers, the Business Analysis team, and users of the tablet platform
 <Decision
   title="Cache-first reads with a Remote Config TTL"
   options="Always fetch · Cache forever · Cache with a tunable TTL"
-  choice="Cache-first, TTL in Remote Config"
+  choice="Cache-first with stale fallback, TTL in Remote Config"
   why="Fast opens and fewer reads, with freshness adjustable without shipping a new build."
 />
 
@@ -91,51 +126,25 @@ Internal engineers, the Business Analysis team, and users of the tablet platform
 
 </Section>
 
-<Section n="07" title="Build highlights">
-
-### Internal developer tools
-
-Replacing outside websites that didn’t fit bank policy.
-
-- CSV↔JSON parser with chunked processing
-- Regex tester
-- QR generator
-- Shared Firebase Analytics component, reused across tools
-
-### Activity Log for Business Analysis
-
-One source of truth instead of versioned Excel files.
-
-- Firestore + Realtime Database
-- Data dictionary
-- Version log storing only changed rows
-- Single-device login
-- Cache-first with Remote Config TTL
-
-### Enterprise platform team
-
-- Helped migrate a monorepo to micro-frontend polyrepos
-- Real-time unread notifications with Cubit + WebSocket
-- Idle timeout synced across tabs
-
-</Section>
-
-<Section n="08" title="Outcome">
+<Section n="07" title="Outcome">
 
 <Outcome
   items={[
     { value: "3", label: "New internal tools" },
-    { value: "1", label: "Central data source for Business Analysis" },
+    { value: "1", label: "Central data source for the BA team" },
     { value: "4", label: "Automated release lanes" },
     { value: "2", label: "Features on the live platform" },
   ]}
 />
 
+Both internal systems were tested, demoed to mentors and to technical and business stakeholders, and handed over with a technical guide and a user manual for the next team.
+
 </Section>
 
-<Section n="09" title="What I'd change">
+<Section n="08" title="What I'd change">
 
-- <Ph>[REFLECTION]</Ph>
-- <Ph>[REFLECTION]</Ph>
+- **Push back earlier, with evidence.** On the idle-timeout feature I proposed a different approach from the spec; the team chose to change the spec back to existing behaviour. Next time I'd bring a quick prototype and the trade-offs to the first discussion, so the decision is made before the work, not after.
+- **Budget time for setup and onboarding.** Setting up a dev environment on locked-down bank machines (an Android emulator blocked by network certificate checks) and learning existing code mid-migration took longer than I planned. I'd now set up and read the codebase in week one, and ask the owners directly sooner.
+- **Report progress and blockers daily.** Near the end I was juggling sprint tickets and a proof of concept; breaking work into small tracked pieces and flagging blockers early worked far better than waiting until near the deadline.
 
 </Section>
