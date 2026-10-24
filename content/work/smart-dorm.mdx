@@ -1,0 +1,103 @@
+export const meta = {
+  slug: "smart-dorm",
+  order: 1,
+  title: "Smart Dorm",
+  shortTitle: "Smart Dorm",
+  year: "2025–2026",
+  readTime: "5 min read",
+  summary:
+    "Usability research turned into a resident app and staff dashboards — Flutter on mobile, Next.js and Spring Boot on the web — including the billing flow both sides depend on.",
+  description:
+    "Smart Dorm case study: usability research turned into a Flutter resident app and Next.js + Spring Boot dashboards, including billing. By Krit Poka.",
+  role: "UX research, front-end engineering",
+  team: "[TEAM SIZE + ROLES]",
+  timeline: "[START – END]",
+  stack: ["Next.js", "Spring Boot", "Flutter", "Clean Architecture", "BLoC", "Figma"],
+  links: [{ label: "Live" }, { label: "GitHub" }, { label: "Figma" }],
+};
+
+<BrowserPhoneHero caption="Hero: looping capture of the staff dashboard alongside the resident app." />
+
+<Section n="01" title="TL;DR">
+
+- Ran usability studies before writing code, so the dashboards were shaped by what residents and staff actually struggled with.
+- Built front-end modules and the billing flow for resident and staff dashboards on Next.js + Spring Boot.
+- Structured the Flutter app with Clean Architecture and BLoC so features could be built and tested independently.
+
+</Section>
+
+<Section n="02" title="Context & problem">
+
+Residents and staff need different things from the same data. Residents want to know what they owe and what's happening with their requests; staff need to see every room, bill and request at once. <Ph>[PROBLEM DETAIL — how billing and requests worked before]</Ph>
+
+</Section>
+
+<Section n="03" title="My role">
+
+I planned and ran the usability studies, turned the findings into flows in Figma, then built front-end modules — including billing — for the resident and staff dashboards. In the Flutter app I built the login, room, payment and profile screens, with the user feature wired through BLoC.
+
+</Section>
+
+<Section n="04" title="Users & research">
+
+Two groups: residents, mostly on their phones, and dorm staff, mostly at a desk. I ran usability studies with <Ph>[N]</Ph> participants on <Ph>[PROTOTYPE / EXISTING PROCESS]</Ph>.
+
+<Findings items={["[FINDING — what users struggled with]", "[FINDING]", "[FINDING]"]} />
+
+</Section>
+
+<Section n="05" title="Decisions & trade-offs">
+
+<Decision
+  title="Split platforms by audience"
+  options="One cross-platform app for everyone · Web for everyone · Different surface per audience"
+  choice="Flutter app for residents; Next.js web for resident and staff dashboards"
+  why="Staff work through dense tables at a desk; residents check a bill on their phone. Each surface could fit its job without compromising the other."
+/>
+<Decision
+  title="Clean Architecture + BLoC in the app"
+  options="setState / Provider · Riverpod · Clean Architecture with BLoC"
+  choice="Clean Architecture with BLoC"
+  why="Hard boundaries between UI, business rules and data let features move in parallel, kept logic unit-testable, and let the API change without touching screens. The cost: more files per feature."
+/>
+<Decision
+  title="Test before build"
+  options="Build from assumptions and iterate · Usability study first"
+  choice="Usability studies on prototypes first"
+  why="Billing is where mistakes cost trust. Fixing a flow in a prototype is cheaper than rewriting shipped screens."
+/>
+
+</Section>
+
+<Section n="06" title="Architecture">
+
+<SmartDormDiagram />
+
+</Section>
+
+<Section n="07" title="Build highlights">
+
+- **Billing module.** <Ph>[DETAIL — invoices, payment status, history]</Ph>
+- **One product, two dashboards.** Shared components between resident and staff views so both read as the same system.
+- **BLoC per feature.** Business logic lives outside widgets, so it can be unit-tested without a device.
+
+</Section>
+
+<Section n="08" title="Outcome">
+
+<Outcome
+  items={[
+    { value: "[METRIC]", label: "Task success, before → after" },
+    { value: "[METRIC]", label: "Residents / staff using it" },
+    { value: "[QUOTE]", label: "From a resident or staff member" },
+  ]}
+/>
+
+</Section>
+
+<Section n="09" title="What I'd change">
+
+- Run a second study after launch with real billing data, not prototype data.
+- Share one set of design tokens between Flutter and Next.js early, instead of matching styles by hand.
+
+</Section>

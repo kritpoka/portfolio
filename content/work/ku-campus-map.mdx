@@ -1,0 +1,103 @@
+export const meta = {
+  slug: "ku-campus-map",
+  order: 2,
+  title: "KU Campus Map",
+  shortTitle: "KU Campus Map",
+  year: "2026",
+  readTime: "5 min read",
+  summary:
+    "A 3D map of KU Bangkhen you can actually find things in — tappable landmarks, search, category filters and shuttle routes, in Thai and English.",
+  description:
+    "KU Campus Map case study: a 3D map of Kasetsart University Bangkhen built from OpenStreetMap with React, Vite and Three.js — search, filters, shuttle routes, Thai and English.",
+  role: "Design and engineering",
+  team: "Solo",
+  timeline: "[START – END]",
+  stack: ["React", "Vite", "Three.js", "OpenStreetMap", "i18n TH/EN"],
+  links: [{ label: "Live", href: "https://ku-map-beta.vercel.app" }, { label: "GitHub" }, { label: "Figma" }],
+};
+
+<MapPreview skipTo="#tldr" />
+
+<Section n="01" title="TL;DR" id="tldr">
+
+- Rebuilt KU Bangkhen as a navigable 3D scene from OpenStreetMap data, with React, Vite and Three.js.
+- Search, a category filter and tappable landmarks answer “where is it?”; shuttle routes answer “how do I get there?”.
+- Thai and English throughout, because the campus is used by both.
+
+</Section>
+
+<Section n="02" title="Context & problem">
+
+Bangkhen is a big campus, and finding a building you've never visited is harder than it should be. <Ph>[PROBLEM DETAIL — what existing maps lacked]</Ph>
+
+</Section>
+
+<Section n="03" title="My role">
+
+A solo project: I designed the interaction model and built the map client.
+
+</Section>
+
+<Section n="04" title="Users & research">
+
+Primary users: <Ph>[USER GROUPS — e.g. first-years, visitors, exchange students]</Ph>. Research: <Ph>[METHOD + N]</Ph>.
+
+<Findings items={["[FINDING]", "[FINDING]", "[FINDING]"]} />
+
+</Section>
+
+<Section n="05" title="Decisions & trade-offs">
+
+<Decision
+  title="Custom 3D scene over an embedded map"
+  options="Google / Mapbox embed · 2D SVG map · Three.js scene on OSM data"
+  choice="Three.js on OpenStreetMap data"
+  why="Full control over styling and landmark interaction, open data, and buildings people recognise by shape. The cost: performance and accessibility become my problem."
+/>
+<Decision
+  title="Search before orbit"
+  options="Free camera as the main interaction · Search and filters drive the camera"
+  choice="Search and category filters move the camera to the result"
+  why="Most people arrive with a destination. Orbit controls are for exploring; search is for finding."
+/>
+<Decision
+  title="One app, two languages"
+  options="English only · Separate Thai site · In-app TH/EN toggle"
+  choice="In-app toggle with shared translation keys"
+  why="One codebase and one set of landmarks; mixed-language groups can switch without losing their place."
+/>
+
+</Section>
+
+<Section n="06" title="Architecture">
+
+<KuCampusMapDiagram />
+
+</Section>
+
+<Section n="07" title="Build highlights">
+
+- **Tappable landmarks.** Selecting a building in 3D opens its details and syncs with search. Pins are real HTML buttons positioned over the 3D scene, so Thai labels render properly and keyboard and screen-reader users can reach them.
+- **Shuttle routes.** Routes drawn on the campus so “how do I get there” has an answer.
+- **Performance on phones.** The scene renders on demand — a still map draws no frames — and loads as its own chunk after the app shell. <Ph>[METRIC — fps / load time on a mid-range phone]</Ph>
+
+</Section>
+
+<Section n="08" title="Outcome">
+
+<Outcome
+  items={[
+    { value: "[METRIC]", label: "Visitors / sessions" },
+    { value: "[METRIC]", label: "Time to find a building" },
+    { value: "[QUOTE]", label: "From a student or visitor" },
+  ]}
+/>
+
+</Section>
+
+<Section n="09" title="What I'd change">
+
+- Add a list view of every landmark, so the map is usable without the 3D scene and with a screen reader.
+- A low-data mode for students on mobile plans.
+
+</Section>

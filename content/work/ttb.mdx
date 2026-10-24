@@ -1,0 +1,141 @@
+{/*
+  Confidential internal banking work. Text and generic, self-drawn diagrams only:
+  no screenshots, no product visuals, no internal names beyond what is here.
+*/}
+
+export const meta = {
+  slug: "ttb",
+  order: 4,
+  title: "Building internal tools and platform features in Flutter at ttb",
+  shortTitle: "ttb internship",
+  longTitle: true,
+  year: "May–Oct 2026",
+  readTime: "5 min read",
+  summary:
+    "Six months on the Tablet Platform Digital Solution team: in-house developer tools, an activity log that replaced versioned Excel files, and real-time platform features.",
+  description:
+    "ttb internship case study: Flutter developer tools, an Activity Log that replaced versioned Excel files, and real-time platform features. Text and generic diagrams only.",
+  role: "Software Engineer Tech Intern",
+  team: "Tablet Platform Digital Solution",
+  timeline: "May–Oct 2026 · ttb spark Tech & Data Internship",
+  stack: [
+    "Flutter",
+    "Clean Architecture",
+    "BLoC / Cubit",
+    "Firebase",
+    "Firestore",
+    "Remote Config",
+    "WebSocket",
+    "Fastlane",
+    "Melos",
+    "Jenkins",
+  ],
+  links: [],
+  linksNote: "Internal work — no public links",
+  note: "Product details and visuals omitted under confidentiality. Diagrams below are generic and self-drawn.",
+};
+
+<Section n="01" title="TL;DR" id="tldr">
+
+- Built in-house developer tools — CSV↔JSON, regex tester, QR generator — so engineers stopped pasting data into outside websites that didn’t fit bank policy.
+- Replaced the Business Analysis team’s versioned Excel files with one Activity Log on Firestore.
+- On the enterprise platform team: helped move a monorepo to micro-frontend polyrepos and shipped real-time notifications and a cross-tab idle timeout.
+
+</Section>
+
+<Section n="02" title="Context & problem">
+
+Two everyday problems. Engineers were using public websites for routine tasks like converting CSV or testing a regex — fine elsewhere, not inside a bank. And the Business Analysis team tracked activity in Excel files passed around as versions, so nobody was sure which copy was current.
+
+</Section>
+
+<Section n="03" title="My role">
+
+Software Engineer Tech Intern in the ttb spark Tech & Data Internship. I built the developer tools and the Activity Log, and contributed features to the enterprise platform. On the Activity Log I owned the work from requirements through navigation, single-device sign-in, the data dictionary, version log, caching and export. For the developer tools I added the CSV↔JSON, regex and QR features, the shared analytics component and the Fastlane + Melos lanes. On the platform team I helped migrate code between releases, built the unread-notification feature from a Jira spec, and made the idle timeout work across tabs.
+
+</Section>
+
+<Section n="04" title="Users & research">
+
+Internal engineers, the Business Analysis team, and users of the tablet platform. Activity Log requirements came straight from the Business Analysis team; platform features were built from specifications in Jira.
+
+</Section>
+
+<Section n="05" title="Decisions & trade-offs">
+
+<Decision
+  title="Chunked CSV processing"
+  options="Parse the whole file in memory · Process in chunks"
+  choice="Chunked processing"
+  why="Large exports shouldn’t freeze the UI or exhaust memory on a tablet; chunks keep the tool responsive at any size."
+/>
+<Decision
+  title="Version log that stores only changed rows"
+  options="Snapshot the whole sheet per version · Store diffs"
+  choice="Store only changed rows"
+  why="History stays small and readable, and “what changed?” is the question the team actually asks."
+/>
+<Decision
+  title="Cache-first reads with a Remote Config TTL"
+  options="Always fetch · Cache forever · Cache with a tunable TTL"
+  choice="Cache-first, TTL in Remote Config"
+  why="Fast opens and fewer reads, with freshness adjustable without shipping a new build."
+/>
+
+</Section>
+
+<Section n="06" title="Architecture">
+
+<CleanArchitectureDiagram />
+<CiPipelineDiagram />
+
+</Section>
+
+<Section n="07" title="Build highlights">
+
+### Internal developer tools
+
+Replacing outside websites that didn’t fit bank policy.
+
+- CSV↔JSON parser with chunked processing
+- Regex tester
+- QR generator
+- Shared Firebase Analytics component, reused across tools
+
+### Activity Log for Business Analysis
+
+One source of truth instead of versioned Excel files.
+
+- Firestore + Realtime Database
+- Data dictionary
+- Version log storing only changed rows
+- Single-device login
+- Cache-first with Remote Config TTL
+
+### Enterprise platform team
+
+- Helped migrate a monorepo to micro-frontend polyrepos
+- Real-time unread notifications with Cubit + WebSocket
+- Idle timeout synced across tabs
+
+</Section>
+
+<Section n="08" title="Outcome">
+
+<Outcome
+  items={[
+    { value: "3", label: "New internal tools" },
+    { value: "1", label: "Central data source for Business Analysis" },
+    { value: "4", label: "Automated release lanes" },
+    { value: "2", label: "Features on the live platform" },
+  ]}
+/>
+
+</Section>
+
+<Section n="09" title="What I'd change">
+
+- <Ph>[REFLECTION]</Ph>
+- <Ph>[REFLECTION]</Ph>
+
+</Section>

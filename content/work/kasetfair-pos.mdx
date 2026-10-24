@@ -1,0 +1,107 @@
+export const meta = {
+  slug: "kasetfair-pos",
+  order: 3,
+  title: "Kasetfair POS",
+  shortTitle: "Kasetfair POS",
+  year: "2026",
+  readTime: "5 min read",
+  summary:
+    "A point-of-sale for Kaset Fair vendors — real-time stock, PromptPay QR checkout and a sales dashboard, with each vendor's data walled off by row-level security.",
+  description:
+    "Kasetfair POS case study: a Next.js + Supabase point-of-sale for Kaset Fair vendors with real-time stock, PromptPay QR checkout and a sales dashboard.",
+  role: "Design and engineering",
+  team: "Solo",
+  timeline: "[START – END]",
+  stack: ["Next.js", "TypeScript", "Supabase", "Postgres RLS", "Zustand", "PromptPay QR"],
+  links: [
+    { label: "Live", href: "https://ku-media-pos.vercel.app" },
+    { label: "GitHub", href: "https://github.com/kritpoka/ku-media-pos" },
+    { label: "Figma" },
+  ],
+};
+
+<TabletPhoneHero caption="Hero: a sale from cart to PromptPay QR, looping." />
+
+<Section n="01" title="TL;DR" id="tldr">
+
+- A web POS vendors can run on a phone or tablet at a fair stall.
+- Real-time inventory, PromptPay QR payments and a sales dashboard.
+- Supabase auth with row-level security, so vendors only ever see their own data.
+
+</Section>
+
+<Section n="02" title="Context & problem">
+
+Kaset Fair stalls are crowded and fast. <Ph>[PROBLEM DETAIL — how vendors tracked stock and sales before]</Ph>
+
+</Section>
+
+<Section n="03" title="My role">
+
+A solo project: I designed and built it end to end — ordering and cart, stock management, PromptPay payment, the sales dashboard and sign-in.
+
+</Section>
+
+<Section n="04" title="Users & research">
+
+Vendors and stall staff, often serving a queue on one device. Research: <Ph>[METHOD + N]</Ph>.
+
+<Findings items={["[FINDING]", "[FINDING]", "[FINDING]"]} />
+
+</Section>
+
+<Section n="05" title="Decisions & trade-offs">
+
+<Decision
+  title="Supabase over a custom backend"
+  options="Custom API + database · Firebase · Supabase"
+  choice="Supabase — Postgres, auth and row-level security"
+  why="Vendor isolation is enforced by the database, not by remembering to filter every query. Fewer moving parts for a fair that runs on a deadline."
+/>
+<Decision
+  title="Zustand for client state"
+  options="Redux Toolkit · React Context · Zustand"
+  choice="Zustand"
+  why="Cart and session state are small and change constantly; Zustand keeps updates local with almost no boilerplate."
+/>
+<Decision
+  title="PromptPay QR for payment"
+  options="Card terminal · Cash only · PromptPay QR"
+  choice="PromptPay QR"
+  why="No extra hardware, and it is how Thai customers already pay at stalls."
+/>
+
+</Section>
+
+<Section n="06" title="Architecture">
+
+<KasetfairPosDiagram />
+
+</Section>
+
+<Section n="07" title="Build highlights">
+
+- **Row-level security policies.** Every table is scoped to the signed-in vendor at the database.
+- **QR at checkout.** The PromptPay QR is generated from the sale total, so staff never type an amount twice.
+- **Live stock.** Inventory updates as sales happen. <Ph>[VERIFY mechanism]</Ph>
+
+</Section>
+
+<Section n="08" title="Outcome">
+
+<Outcome
+  items={[
+    { value: "[METRIC]", label: "Vendors using it" },
+    { value: "[METRIC]", label: "Transactions processed" },
+    { value: "[QUOTE]", label: "From a vendor" },
+  ]}
+/>
+
+</Section>
+
+<Section n="09" title="What I'd change">
+
+- An offline queue for patchy fair Wi-Fi, syncing sales when the connection returns.
+- Automatic payment confirmation instead of checking the transfer by eye.
+
+</Section>
