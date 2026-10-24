@@ -33,29 +33,19 @@ What's still missing or unconfirmed. Placeholders show on the site as a dashed `
 
 ### Site-wide
 
-**Blocks launch**
-- [ ] **Resume PDF.** `public/resume.pdf` still says "orders, stock" for Kasetfair POS, which the app doesn't have. Save the corrected file as `sources/assets/resume.pdf` and copy it over.
-
 **Nice to have**
 - [ ] **Custom domain.** Connect it in Vercel and set `SITE_URL`.
 
+The resume is in place (`public/resume.pdf`, the web version: no phone number, GPA or stock claim).
+
 ### Homepage (`content/home.ts`)
 
-**Blocks launch**
-- [ ] `[SCREENSHOT] Smart Dorm dashboard`: the Smart Dorm row preview (4:3).
-
-KU Campus Map uses the share image and Kasetfair POS uses the dashboard screenshot. The ttb row has no preview on purpose.
+Nothing outstanding. Smart Dorm shows a before/after workflow diagram, KU Campus Map the share image, Kasetfair POS the dashboard screenshot. The ttb row has no preview on purpose.
 
 ### Smart Dorm (`content/work/smart-dorm.mdx`)
 
-**Blocks launch**
-- [ ] **Hero images:**
-  - `[SCREENSHOT / VIDEO] Staff dashboard — billing` (browser frame, about 16:10)
-  - `[SCREENSHOT] Resident app` (phone, 9:19)
-
-  If you share Figma file links, Smart Dorm screens can be pulled with the Figma MCP (`get_screenshot`).
-
 **Nice to have**
+- [ ] **Screenshots.** The hero and homepage preview are a before/after workflow diagram for now. If you add screens (or share Figma links and I pull them with the Figma MCP `get_screenshot`), swap in `BrowserPhoneHero` or `<Screenshot>`.
 - [ ] 07 Outcome: `[ADD ANY RESULT — e.g. staff feedback, time saved, whether it was adopted]`.
 
 "What I'd change" stays hidden, and there is a single key finding and two decisions, as confirmed.
