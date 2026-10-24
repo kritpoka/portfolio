@@ -1,85 +1,160 @@
+import { media } from "@/content/media";
+
 export const meta = {
   slug: "ku-campus-map",
   order: 2,
   title: "KU Campus Map",
   shortTitle: "KU Campus Map",
   year: "2026",
-  readTime: "5 min read",
+  readTime: "6 min read",
   summary:
-    "A 3D map of KU Bangkhen you can actually find things in — tappable landmarks, search, category filters and shuttle routes, in Thai and English.",
+    "A 3D, bilingual map of Kasetsart's Bangkhen campus that works on phones — built in about two days.",
   description:
-    "KU Campus Map case study: a 3D map of Kasetsart University Bangkhen built from OpenStreetMap with React, Vite and Three.js — search, filters, shuttle routes, Thai and English.",
-  role: "Design and engineering",
-  team: "Solo",
-  timeline: "[START – END]",
-  stack: ["React", "Vite", "Three.js", "OpenStreetMap", "i18n TH/EN"],
-  links: [{ label: "Live", href: "https://ku-map-beta.vercel.app" }, { label: "GitHub" }, { label: "Figma" }],
+    "KU Campus Map case study: a 3D, bilingual map of Kasetsart University's Bangkhen campus from OpenStreetMap data. Krit planned, reviewed and phone-tested every milestone; Claude Code wrote the code.",
+  role: "Solo — product, design direction, data review and testing; code written with Claude Code (AI-assisted)",
+  timeline: "About 2 days · 22–24 Oct 2026",
+  stack: [
+    "React 19",
+    "TypeScript",
+    "Vite",
+    "three.js + React Three Fiber",
+    "Tailwind CSS 4",
+    "OpenStreetMap",
+    "Playwright",
+  ],
+  links: [
+    { label: "Live", href: "https://ku-map-beta.vercel.app" },
+    { label: "GitHub", href: "https://github.com/kritpoka/ku-bangkhen-campus-map" },
+  ],
+  note: {
+    label: "How I built it",
+    text: "I planned each milestone, wrote the briefs, reviewed every checkpoint and tested on my own phone; Claude Code wrote the code.",
+  },
 };
 
-<MapPreview skipTo="#tldr" />
+<MapPreview
+  skipTo="#tldr"
+  poster={{
+    type: "image",
+    src: media.kuMapShare,
+    alt: "KU Bangkhen Campus Map: a 3D view of the campus with labelled landmarks, titled แผนที่ มก. บางเขน, 3D · ไทย / EN",
+  }}
+/>
 
 <Section n="01" title="TL;DR" id="tldr">
 
-- Rebuilt KU Bangkhen as a navigable 3D scene from OpenStreetMap data, with React, Vite and Three.js.
-- Search, a category filter and tappable landmarks answer “where is it?”; shuttle routes answer “how do I get there?”.
-- Thai and English throughout, because the campus is used by both.
+- University maps are mostly flat images that are hard to read; I wanted to see if a 3D map could make finding your way around campus more engaging.
+- Built a static 3D site from real OpenStreetMap data, with 38 places, Thai/English search and the campus shuttle routes.
+- Made it work on phones: custom touch gestures, a code-split 3D chunk and render-on-demand.
 
 </Section>
 
 <Section n="02" title="Context & problem">
 
-Bangkhen is a big campus, and finding a building you've never visited is harder than it should be. <Ph>[PROBLEM DETAIL — what existing maps lacked]</Ph>
+Most university campus maps are the old, static kind — a flat image or a PDF that's hard to read and harder to search. I was curious to try 3D, and thought a map you can rotate, tap and search would make exploring the campus more exciting for freshmen and visitors.
 
 </Section>
 
 <Section n="03" title="My role">
 
-A solo project: I designed the interaction model and built the map client.
+I worked alone, owning the product, the design direction, the data and the testing. Claude Code wrote the code in seven milestones — scaffold, styled scene, gestures, search and filters, shuttle, performance, deploy — committing after each one. I planned each milestone, wrote the briefs, reviewed every checkpoint with screenshots, and tested on my own iPhone between rounds.
+
+The data I checked myself:
+
+- Reviewed the landmark list: names in Thai and English, nicknames, and which places count as landmarks.
+- Used only open-licensed photos (Wikimedia Commons) or my own.
+- Replaced made-up stop names with neutral labels, and marked approximate stops as “Near …”.
+
+The shuttle data comes from the official route maps and the 2026 schedule on vehicle.ku.ac.th. 32 of 39 OpenStreetMap stops matched an official stop; the approximate ones are labelled.
 
 </Section>
 
-<Section n="04" title="Users & research">
+<Section n="04" title="How I built it">
 
-Primary users: <Ph>[USER GROUPS — e.g. first-years, visitors, exchange students]</Ph>. Research: <Ph>[METHOD + N]</Ph>.
+**Visual direction.** Clean, bright, low-poly isometric 3D with soft shadows and rounded floating cards, inspired by a logistics-dashboard reference and recoloured in KU green. The font is IBM Plex Sans Thai.
 
-<Findings items={["[FINDING]", "[FINDING]", "[FINDING]"]} />
+**A hybrid map.** Roads, building footprints and positions are real OpenStreetMap data. Featured landmarks get detailed low-poly models; everything else stays a plain block. Labels are capped at the default view so the map stays readable.
 
-</Section>
+Problems I found by testing on a real phone, then fixed:
 
-<Section n="05" title="Decisions & trade-offs">
-
-<Decision
-  title="Custom 3D scene over an embedded map"
-  options="Google / Mapbox embed · 2D SVG map · Three.js scene on OSM data"
-  choice="Three.js on OpenStreetMap data"
-  why="Full control over styling and landmark interaction, open data, and buildings people recognise by shape. The cost: performance and accessibility become my problem."
-/>
-<Decision
-  title="Search before orbit"
-  options="Free camera as the main interaction · Search and filters drive the camera"
-  choice="Search and category filters move the camera to the result"
-  why="Most people arrive with a destination. Orbit controls are for exploring; search is for finding."
-/>
-<Decision
-  title="One app, two languages"
-  options="English only · Separate Thai site · In-app TH/EN toggle"
-  choice="In-app toggle with shared translation keys"
-  why="One codebase and one set of landmarks; mixed-language groups can switch without losing their place."
-/>
+- Shuttle routes leaked onto public roads and broke into pieces. Fixed by constraining the trace to campus roads and adding a validator.
+- The map looked blurry on an iPhone 13 because of a resolution cap. Fixed with adaptive resolution — full when still, lower while moving — and a `?debug=1` performance overlay.
+- The bottom sheet fought with scrolling. Fixed with drag-from-anywhere and scroll hand-off.
+- Link previews showed a logo. Fixed with a real map share image.
 
 </Section>
 
-<Section n="06" title="Architecture">
+<Section n="05" title="What it does">
+
+- A 3D campus from OpenStreetMap buildings, roads, water and trees; 16 landmarks have hand-styled models.
+- 38 places in 8 categories, each with Thai and English text, sources and photos.
+- Search in Thai and English, including nicknames and shuttle stop codes, with category filter chips.
+- A detail card on desktop and a three-position bottom sheet on mobile. Places are shareable by link (`?place=library`).
+- The KU shuttle (รถตะลัย) overlay: lines 1, 3 and 5 with stops and service hours.
+- Thai by default, English one tap away.
+
+<Screenshot
+  image={media.kuMapShuttle}
+  alt="Desktop view with shuttle line 1 selected: the route drawn in red around the campus, and a side panel listing the lines, service hours and stops."
+  caption="Shuttle line 1, with its stops and service hours."
+/>
+<Screenshot
+  image={media.kuMapSearch}
+  alt="Desktop view with a search typed into the search bar and a dropdown of matching places with Thai and English names."
+  caption="Search matches Thai and English names, nicknames and stop codes."
+/>
+<Screenshot
+  image={media.kuMapCard}
+  alt="Close-up 3D view of the KU Library building with its detail card open on the right: Thai and English name, category, description and coordinates."
+  caption="A place's detail card on desktop."
+/>
+<PhoneShots
+  shots={[
+    {
+      image: media.kuMapMobileSearch,
+      alt: "Phone view of the search sheet: category chips and a list of suggested places in Thai and English.",
+      caption: "Search sheet on a phone.",
+    },
+    {
+      image: media.kuMapMobileShuttle,
+      alt: "Phone view of the 3D campus with the shuttle routes drawn and line chips along the bottom.",
+      caption: "Shuttle routes on a phone.",
+    },
+  ]}
+/>
+
+</Section>
+
+<Section n="06" title="Decisions & trade-offs">
+
+<Decision
+  title="Real map data, fetched once"
+  why="OpenStreetMap geometry is pulled by a script at build time and stored as one compact TopoJSON file, so the app never calls a map API. Six GeoJSON files (~138 KB gzipped) became one ~77 KB file."
+/>
+<Decision
+  title="Hand-written touch gestures"
+  why="Pan with fling, pinch, two-finger rotate and tilt, double-tap zoom — written by hand to feel like Google Maps on phones, instead of relying on desktop-style orbit controls. Tested with Playwright driving real touch input, including WebKit for Safari."
+/>
+<Decision
+  title="Shell first, 3D later"
+  why="The UI shell (124 KB gzipped) paints first; three.js, the scene and the map data (360 KB) load as a separate chunk afterwards, behind a campus-shaped loading skeleton. Previously everything was one 545 KB bundle."
+/>
+<Decision
+  title="Render on demand"
+  why="The scene draws zero frames while the map is still, which saves battery on phones; shadows render only at rest, and resolution adapts on phones."
+/>
+<Decision
+  title="Shuttle routes from official images"
+  why="A Python tool traced KU's official shuttle route images onto campus roads, with a validator script that checks every route is one continuous loop."
+/>
+
+</Section>
+
+<Section n="07" title="Architecture">
 
 <KuCampusMapDiagram />
 
-</Section>
-
-<Section n="07" title="Build highlights">
-
-- **Tappable landmarks.** Selecting a building in 3D opens its details and syncs with search. Pins are real HTML buttons positioned over the 3D scene, so Thai labels render properly and keyboard and screen-reader users can reach them.
-- **Shuttle routes.** Routes drawn on the campus so “how do I get there” has an answer.
-- **Performance on phones.** The scene renders on demand — a still map draws no frames — and loads as its own chunk after the app shell. <Ph>[METRIC — fps / load time on a mid-range phone]</Ph>
+Build-time scripts turn OpenStreetMap data into trees, a campus fade mask and one TopoJSON file, and a Python tracer produces the shuttle routes. At runtime the React shell drives the lazily loaded 3D scene through a small map API.
 
 </Section>
 
@@ -87,17 +162,26 @@ Primary users: <Ph>[USER GROUPS — e.g. first-years, visitors, exchange student
 
 <Outcome
   items={[
-    { value: "[METRIC]", label: "Visitors / sessions" },
-    { value: "[METRIC]", label: "Time to find a building" },
-    { value: "[QUOTE]", label: "From a student or visitor" },
+    { value: "5.12 → 3.08 s", label: "Largest Contentful Paint" },
+    { value: "4.96 → 2.93 s", label: "First Contentful Paint" },
+    { value: "50 → 64", label: "Lighthouse performance score" },
+    { value: "545 → 124 KB", label: "Initial download (3D loads after)" },
   ]}
 />
+
+Measured with Lighthouse on mobile (slow 4G, 4× CPU throttle), median of three runs, before → after the performance pass. Accessibility and Best Practices stayed at 100; SEO went from 92 to 100.
 
 </Section>
 
 <Section n="09" title="What I'd change">
 
-- Add a list view of every landmark, so the map is usable without the 3D scene and with a screen reader.
-- A low-data mode for students on mobile plans.
+Total Blocking Time didn't improve (0.78 s → 1.20 s). Building the 3D scene is now split into shorter tasks, but the total work is the same and the CPU throttle still counts it. Next I'd:
+
+- pre-build the scene geometry at build time or in a Web Worker
+- show a poster image first, then cross-fade into 3D
+- self-host a subset of the font
+- add offline support for weak campus Wi-Fi
+
+I'd also verify the approximate shuttle stops on campus.
 
 </Section>
