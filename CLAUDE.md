@@ -24,13 +24,13 @@
   - Keep the note "Product details and visuals omitted under confidentiality."
 - **Kasetfair POS accuracy** (checked in Supabase and the code):
   - Realtime is off: never say "real-time".
-  - Products have no stock quantity, so don't claim stock updates after a sale. "The dashboard reflects every order" is accurate.
+  - Products have no stock quantity: say "products" everywhere, never "stock" or "inventory". "The dashboard reflects every order" is accurate.
   - RLS: only signed-in staff can read or change data. Never say each vendor's data is isolated.
   - The stall was cancelled, so the dashboard screenshots are test data and never results.
 - **KU Campus Map:** always use the full role, "Solo — product, design direction, data review and testing; code written with Claude Code (AI-assisted)". Never shorten it to "Solo".
 - **Images:**
   - Don't use the KU Map landmark photos (other photographers).
-  - Food photos in the POS screenshots are from third-party sites, pending Krit's OK.
+  - Food photos in the POS screenshots come from other websites: they must stay blurred (see `POS_BLUR` in `scripts/optimize-images.mjs`).
 - **Activities:** Krit was a working-group member, not an executive, in KU Tech club and KU Hackathon.
 - **Never commit `sources/`:** the internship report and poster are internal, and the old resume has GPA and phone.
 

@@ -33,17 +33,18 @@ What's still missing or unconfirmed. Placeholders show on the site as a dashed `
 
 ### Site-wide
 
+**Blocks launch**
+- [ ] **Resume PDF.** `public/resume.pdf` still says "orders, stock" for Kasetfair POS, which the app doesn't have. Save the corrected file as `sources/assets/resume.pdf` and copy it over.
+
 **Nice to have**
 - [ ] **Custom domain.** Connect it in Vercel and set `SITE_URL`.
-
-The resume is in place: `public/resume.pdf`, copied from `sources/assets/resume.pdf`.
 
 ### Homepage (`content/home.ts`)
 
 **Blocks launch**
 - [ ] `[SCREENSHOT] Smart Dorm dashboard`: the Smart Dorm row preview (4:3).
 
-KU Campus Map uses the share image and Kasetfair POS uses the ordering screen. The ttb row has no preview on purpose.
+KU Campus Map uses the share image and Kasetfair POS uses the dashboard screenshot. The ttb row has no preview on purpose.
 
 ### Smart Dorm (`content/work/smart-dorm.mdx`)
 
@@ -56,34 +57,23 @@ KU Campus Map uses the share image and Kasetfair POS uses the ordering screen. T
 
 **Nice to have**
 - [ ] 07 Outcome: `[ADD ANY RESULT — e.g. staff feedback, time saved, whether it was adopted]`.
-- [ ] 04 Users & research: a second finding from the staff test, and what changed in the design because of it. The notes mark this optional, so no chip is shown.
-- [ ] 05 Decisions & trade-offs: more decisions, if you can confirm details. There are two for now.
-- [ ] **What I'd change:** hidden until you have something to add.
+
+"What I'd change" stays hidden, and there is a single key finding and two decisions, as confirmed.
 
 ### KU Campus Map (`content/work/ku-campus-map.mdx`)
 
-**Nice to have**
-- [ ] Merge anything new from your build-conversation summary `.md` once you add it. It isn't in `sources/notes/` yet.
-- [ ] 09 What I'd change: confirm or trim "I'd also verify the approximate shuttle stops on campus."
+Nothing outstanding.
 
 ### Kasetfair POS (`content/work/kasetfair-pos.mdx`)
 
-**Blocks launch**
-- [ ] **Rights check on food photos.** The product photos inside the screenshots appear to come from other websites; the edit screen shows a URL from sgethai.com. Confirm you can show them, or I'll blur them or swap in other screens.
-
-**Nice to have**
-- [ ] **What I'd change:** hidden until you confirm it. Candidates from your notes:
-  - per-role policies (cashier vs owner)
-  - Realtime so several phones stay in sync
-  - offline mode for weak fair Wi-Fi
+Nothing outstanding. Product photos in the screenshots come from other websites, so they are blurred by `scripts/optimize-images.mjs`; keep that if you re-export the screens.
 
 ### ttb internship (`content/work/ttb.mdx`)
 
 Text and generic diagrams only: no screenshots, ever.
 
 **Blocks launch**
-- [ ] **Your ttb supervisor's OK on the page text** before publishing (from your notes).
-- [ ] 08 What I'd change uses the three points drafted from the co-op report. Keep, edit or drop them.
+- [ ] **Your ttb supervisor's OK on the page text** before publishing.
 
 ### Adding media
 
