@@ -1,3 +1,5 @@
+At the start of every session, read sources/HANDOFF.md and SOURCES.md before doing anything. At the end of a session, update the "Current state" and "Next steps" sections in sources/HANDOFF.md.
+
 @AGENTS.md
 
 # Krit Poka — portfolio
