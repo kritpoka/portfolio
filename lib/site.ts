@@ -10,6 +10,7 @@ export const LINKS = {
   email: `mailto:${EMAIL}`,
   ku: "https://www.ku.ac.th/en",
   kuMap: "https://ku-map-beta.vercel.app",
+  kuMapCode: "https://github.com/kritpoka/ku-bangkhen-campus-map",
   kasetfairPos: "https://ku-media-pos.vercel.app",
   kasetfairPosCode: "https://github.com/kritpoka/ku-media-pos",
   studyCafe: "https://study-cafe-chi.vercel.app",

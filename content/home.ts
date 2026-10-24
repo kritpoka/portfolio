@@ -1,4 +1,5 @@
 import type { Media } from "@/components/MediaSlot";
+import { media } from "@/content/media";
 import type { ProjectRowData } from "@/components/home/ProjectRow";
 import { LINKS } from "@/lib/site";
 
@@ -17,9 +18,9 @@ export const selectedWork: SelectedWork[] = [
     year: "2025–2026",
     href: "/work/smart-dorm",
     outcome:
-      "UX research → Next.js + Spring Boot web and a Flutter app. I ran usability studies, then built front-end modules and billing for resident and staff dashboards.",
-    role: "UX research + front-end",
-    stack: "Next.js · Spring Boot · Flutter · Clean Architecture · BLoC",
+      "Replaced a dorm office's Excel-and-email billing with one system where staff and residents can see every bill's status. Usability-tested with the real dorm staff.",
+    role: "UX/UI, workflow + front-end, team of 4",
+    stack: "Figma · Next.js · Spring Boot · Flutter (follow-up app)",
     links: [caseLink("smart-dorm")],
     caption: "Resident + staff dashboards",
     preview: { placeholder: "[SCREENSHOT] Smart Dorm dashboard" },
@@ -30,18 +31,30 @@ export const selectedWork: SelectedWork[] = [
     href: "/work/ku-campus-map",
     outcome:
       "3D interactive map of KU Bangkhen — tappable landmarks, search, category filter, shuttle routes, in Thai and English.",
-    role: "Solo — design and engineering",
+    role: "Solo — product, design direction, data review and testing; code written with Claude Code (AI-assisted)",
     stack: "React · Vite · Three.js · OpenStreetMap",
-    links: [caseLink("ku-campus-map"), { label: "Live ↗", href: LINKS.kuMap }],
+    links: [
+      caseLink("ku-campus-map"),
+      { label: "Live ↗", href: LINKS.kuMap },
+      { label: "Code ↗", href: LINKS.kuMapCode },
+    ],
     caption: "ku-map-beta.vercel.app",
-    preview: { placeholder: "[SCREENSHOT] 3D campus view" },
+    preview: {
+      placeholder: "[SCREENSHOT] 3D campus view",
+      media: {
+        type: "image",
+        src: media.kuMapShare,
+        alt: "KU Bangkhen Campus Map: the 3D campus with labelled landmarks",
+        position: "left",
+      },
+    },
   },
   {
     title: "Kasetfair POS",
     year: "2026",
     href: "/work/kasetfair-pos",
     outcome:
-      "POS for Kaset Fair vendors — real-time inventory, PromptPay QR payments, a sales dashboard, Supabase auth with row-level security.",
+      "Phone-first POS for a Kaset Fair stall — orders, PromptPay QR payments, a dashboard that reflects every order, and sign-in so only signed-in staff can read or change data.",
     role: "Solo — design and engineering",
     stack: "Next.js · TypeScript · Supabase · Zustand",
     links: [
@@ -50,7 +63,15 @@ export const selectedWork: SelectedWork[] = [
       { label: "Code ↗", href: LINKS.kasetfairPosCode },
     ],
     caption: "ku-media-pos.vercel.app",
-    preview: { placeholder: "[SCREENSHOT] POS checkout + QR" },
+    preview: {
+      placeholder: "[SCREENSHOT] POS checkout + QR",
+      media: {
+        type: "image",
+        src: media.posOrdering,
+        alt: "Kasetfair POS ordering screen on a phone: a menu of Thai dishes with photos and prices",
+        fit: "contain",
+      },
+    },
   },
   {
     title: "ttb",
