@@ -1,101 +1,116 @@
 # krit.poka — portfolio
 
-Personal site for Krit Poka: software engineer who designs — Flutter, Next.js, and the UX in between.
+Personal site of Krit Poka, a software engineer who designs: Flutter, Next.js, and the UX in between. A short homepage and four case studies, built as a fully static Next.js site.
 
-Built from the Claude Design handoff ("Engineer's Notebook"): a short homepage plus one case study per featured project.
+**Live:** https://kritpoka-portfolio.vercel.app
 
-- **Stack:** Next.js 16 (App Router, Cache Components, every route prerendered), TypeScript, Tailwind CSS 4, MDX, cmdk, Vercel Analytics.
-- **Pages:** `/`, `/work/smart-dorm`, `/work/ku-campus-map`, `/work/kasetfair-pos`, `/work/ttb`, plus a 404 page.
-- **Content:** case studies live in `content/work/*.mdx`; homepage copy is in `content/home.ts`. See `CLAUDE.md` for the template and how to add a project.
+<img src="docs/screenshots/home-desktop.jpg" alt="Homepage on desktop: name, tagline, resume, GitHub and LinkedIn buttons, and the first selected project" width="620">
+<img src="docs/screenshots/home-mobile.jpg" alt="Homepage on a phone" width="190">
 
-## Develop
+> Want to know how it works? Read [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
+
+## Features
+
+- **Case studies in MDX.** Each project is one file in `content/work/` with typed front matter and a shared set of building blocks.
+- **⌘K / Ctrl+K command menu** (cmdk), loaded only the first time it opens.
+- **Selected-work rows** with a hover or focus preview on wide screens with a mouse, and a "Preview" toggle everywhere else.
+- **Light and dark theme.** It follows the OS until the toggle is used, and the choice is applied before first paint.
+- **Click-to-load 3D map.** The KU Campus Map case study embeds the live map in an iframe only after a click.
+- **Per-page share images** (Open Graph), generated at build time, plus a sitemap, `robots.txt` and JSON-LD.
+- **Static output.** Every page is prerendered; the build fails if one stops being static.
+
+## Tech stack
+
+| Piece | Why |
+|---|---|
+| [Next.js](https://nextjs.org) 16 (App Router, Cache Components) | File-based routes, `generateStaticParams`, `next/og`, `next/font` and `next/image` in one place. |
+| React 19 + TypeScript | UI, and typed case study metadata (`lib/types.ts`). |
+| [Tailwind CSS](https://tailwindcss.com) 4 | Utility styling on top of CSS-variable design tokens (`app/globals.css`). |
+| `@next/mdx` | Case studies are content, not code: prose plus a few components. |
+| [cmdk](https://cmdk.paco.me) + Radix Dialog | The command menu, with focus handling and keyboard navigation built in. |
+| `next/font` (IBM Plex Sans and Mono, Instrument Serif) | Self-hosted fonts with metric-matched fallbacks, so text doesn't shift. |
+| `sharp` | The image script (`scripts/optimize-images.mjs`): resize, crop, blur, WebP. |
+| Vercel + `@vercel/analytics` | Hosting, and four custom events (resume click, email copy, email click, case study open). |
+
+## Quick start
+
+Requires Node 22 or newer and npm.
 
 ```bash
 npm install
-npm run dev        # http://localhost:3000
-npm run build      # production build; fails if any page stops being static
+npm run dev                  # http://localhost:3000
+npm run build                # production build; fails if any page stops being static
+npm start                    # serve the production build
 npm run lint
+npx tsc --noEmit             # type-check
+node scripts/optimize-images.mjs   # regenerate public/work/** from sources/assets/ (see ARCHITECTURE.md)
 ```
+
+## Project structure
+
+```
+app/
+  layout.tsx            root layout: metadata, theme script, command menu host, analytics
+  page.tsx              homepage (+ Person JSON-LD)
+  work/[slug]/page.tsx  one case study; opengraph-image.tsx next to it
+  opengraph-image.tsx   homepage share image
+  sitemap.ts, robots.ts, not-found.tsx, icon.svg, apple-icon.tsx, globals.css
+content/
+  work/*.mdx            the four case studies (front matter + MDX body)
+  home.ts               homepage copy: selected work, experience, more projects, recognition
+  media.ts              GENERATED image metadata; do not edit by hand
+components/
+  case/                 case study building blocks (Section, Decision, Outcome, heroes, screenshots)
+  diagrams/             HTML/CSS diagrams used in the case studies
+  command/              ⌘K menu
+  home/ProjectRow.tsx   selected-work row with its preview
+  reveal.ts             page-load reveal helper
+lib/
+  site.ts               name, links, SITE_URL, build date
+  work.ts               case study registry, ordering and next-project links
+  og.tsx                shared Open Graph card renderer (+ og-fonts/)
+  theme.ts, fonts*.ts, analytics.ts, palette.ts, types.ts
+mdx-components.tsx      registers every component MDX files can use
+scripts/optimize-images.mjs   image pipeline
+public/                 resume.pdf and optimized work images
+docs/                   ARCHITECTURE.md and screenshots
+```
+
+## Editing content
+
+- **A case study:** edit `content/work/<slug>.mdx`. The front matter (`export const meta`) is typed by `CaseMeta` in `lib/types.ts`, and the body uses the registered components with no imports.
+- **The homepage:** edit `content/home.ts`. `selectedWork` drives the project rows; `moreProjects`, `experience` and `recognition` are plain lists.
+- **A new project:** create the MDX file, register it in `lib/work.ts`, and add a homepage row. The numbered steps are in [CLAUDE.md](CLAUDE.md#adding-a-project), and the end-to-end walkthrough is in [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md#walkthrough-add-a-new-case-study).
+- **Content and design rules** (what may and may not appear on the site, design tokens, type scale) live in [CLAUDE.md](CLAUDE.md).
 
 ## Configuration
 
 | Variable | Purpose |
 |---|---|
-| `SITE_URL` | Canonical origin, e.g. `https://example.com`. Leave unset until a custom domain is connected: on Vercel the production URL is used instead. Used for metadata, `sitemap.xml` and `robots.txt`. |
+| `SITE_URL` | Canonical origin, e.g. `https://example.com`. Sets `metadataBase`, so it ends up in every canonical link, `og:url`, `og:image`, the sitemap and `robots.txt`. |
 
-The footer's "Last updated" date is the build date.
+If `SITE_URL` is unset the site uses `VERCEL_PROJECT_PRODUCTION_URL` on Vercel, and `http://localhost:3000` otherwise. Set it explicitly for production: link-preview scrapers fetch the share image from exactly that address, so a wrong value means a missing preview. The footer's "Last updated" date is the build date.
 
-## Content to add
+## Deploy
 
-What's still missing or unconfirmed. Placeholders show on the site as a dashed `[PLACEHOLDER]` chip or a striped "[SCREENSHOT]" box. Sections with nothing to show yet are hidden, not left empty.
-
-**Blocks launch:** a featured project is missing its visuals, or something must be confirmed before going public. **Nice to have:** the page reads fine without it.
-
-### Site-wide
-
-**Nice to have**
-- [ ] **Custom domain.** Connect it in Vercel and set `SITE_URL`.
-
-The resume is in place (`public/resume.pdf`, the web version: no phone number, GPA or stock claim).
-
-### Homepage (`content/home.ts`)
-
-Nothing outstanding. Smart Dorm shows a before/after workflow diagram, KU Campus Map the share image, Kasetfair POS the dashboard screenshot. The ttb row has no preview on purpose.
-
-### Smart Dorm (`content/work/smart-dorm.mdx`)
-
-**Nice to have**
-- [ ] **Screenshots.** The hero and homepage preview are a before/after workflow diagram for now. If you add screens (or share Figma links and I pull them with the Figma MCP `get_screenshot`), swap in `BrowserPhoneHero` or `<Screenshot>`.
-- [ ] 07 Outcome: a result (staff feedback, time saved, whether it was adopted). Hidden for now; the spot is marked in the MDX.
-
-"What I'd change" stays hidden, and there is a single key finding and two decisions, as confirmed.
-
-### KU Campus Map (`content/work/ku-campus-map.mdx`)
-
-Nothing outstanding.
-
-### Kasetfair POS (`content/work/kasetfair-pos.mdx`)
-
-Nothing outstanding. Product photos in the screenshots come from other websites, so they are blurred by `scripts/optimize-images.mjs`; keep that if you re-export the screens.
-
-### ttb internship (`content/work/ttb.mdx`)
-
-Text and generic diagrams only: no screenshots, ever.
-
-**Blocks launch**
-- [ ] **Your ttb supervisor's OK on the page text** before publishing.
-
-### Adding media
-
-Put originals in `sources/assets/<slug>/` (gitignored), add them to `scripts/optimize-images.mjs`, then run:
+The site is a Vercel project. Deploy with the Vercel CLI:
 
 ```bash
-node scripts/optimize-images.mjs
+vercel deploy          # preview
+vercel deploy --prod   # production
 ```
 
-This writes resized WebP files to `public/work/<slug>/` and regenerates `content/media.ts` with each image's width, height and blur placeholder. Use the images in MDX:
+- **Environment:** set `SITE_URL` for Production (`vercel env add SITE_URL production`), then redeploy so the build picks it up.
+- **Deployment Protection:** when it is on, scrapers (LINE, Facebook, LinkedIn, X) get a login redirect and show no preview. Link previews only work on a publicly reachable URL.
+- **Custom domain:** when one is connected, add it in Vercel, change `SITE_URL` to it and redeploy.
+- **Git integration:** pushes to GitHub don't deploy yet; connect the repository in the Vercel project settings to enable that.
 
-```mdx
-import { media } from "@/content/media";
+## Roadmap
 
-<Screenshot image={media.kuMapShuttle} alt="…" caption="…" />
-<PhoneShots shots={[{ image: media.posDashboard, alt: "…", caption: "…" }]} />
-<BrowserPhoneHero web={{ type: "image", src: media.someKey, alt: "…" }} caption="…" />
-```
+- Screenshots for the Smart Dorm case study
+- Custom domain
+- Automatic deploys from `main`
 
-`next/image` serves AVIF/WebP at the width each layout needs. Images are lazy-loaded, the hero included: on phones the title is the LCP and preloading the hero image slowed it down. For video, use `{ type: "video", mp4, webm, poster, alt }`: muted, looping, plays only on screen, never with reduced motion, and kept under 3 MB.
+## License
 
-Don't use the KU Map landmark photos (other photographers' work), and never add anything from ttb.
-
-## Performance
-
-Lighthouse 13, mobile, simulated throttling, against `next start` on localhost. Median of three runs:
-
-| Page | Perf | A11y | Best practices | SEO | LCP | CLS | TBT |
-|---|---|---|---|---|---|---|---|
-| `/` | 96 | 100 | 96 | 100 | 2.7 s | 0 | 43 ms |
-| `/work/kasetfair-pos` | 95 | 100 | 96 | 100 | 3.0 s | 0 | 45 ms |
-| `/work/ku-campus-map` | 95 | 100 | 96 | 100 | 2.9 s | 0 | 20 ms |
-
-- **Best practices 96:** this is only the local 404 for `/_vercel/insights/script.js`, which exists once deployed.
-- **LCP:** the LCP element is the hero text on every page. A bare Next.js page with this layout measures 2.5–2.6 s on the same setup, so the remaining gap is mostly framework JS and fonts under simulated slow 4G. Re-check with PageSpeed Insights on the Vercel URL.
+All rights reserved. The code is public to read, but no licence to reuse it, or the text and images, is granted.
