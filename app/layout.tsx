@@ -4,6 +4,7 @@ import CommandMenuHost from "@/components/command/CommandMenuHost";
 import { plexMono, plexSans, plexSansItalic } from "@/lib/fonts";
 import { DEFAULT_DESCRIPTION, NAME, SITE_URL } from "@/lib/site";
 import { themeScript } from "@/lib/theme";
+import { buildIntroBootScript } from "@/components/build-intro/boot";
 import { caseLinks } from "@/lib/work";
 import "./globals.css";
 
@@ -40,6 +41,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     >
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+        {buildIntroBootScript && <script dangerouslySetInnerHTML={{ __html: buildIntroBootScript }} />}
       </head>
       <body>
         {children}

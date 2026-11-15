@@ -7,6 +7,7 @@ import { SmartDormWorkflowPreview } from "@/components/diagrams/SmartDormWorkflo
 import PaletteButton from "@/components/command/PaletteButton";
 import ProjectRow from "@/components/home/ProjectRow";
 import { reveal } from "@/components/reveal";
+import BuildIntro from "@/components/build-intro/BuildIntro";
 import { experience, howIWork, moreProjects, recognition, selectedWork } from "@/content/home";
 import { BUILD_DATE, DEFAULT_DESCRIPTION, EMAIL, LINKS, NAME, RESUME_PATH, SITE_URL } from "@/lib/site";
 
@@ -40,17 +41,18 @@ export default function Home() {
   return (
     <div className="relative min-h-full overflow-hidden">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }} />
-      <div aria-hidden="true" className="dot-grid h-[760px]" />
+      <div aria-hidden="true" data-build="0" className="dot-grid h-[760px]" />
 
       <header className="relative mx-auto flex max-w-[680px] items-center justify-between gap-4 px-6 pt-6">
         <a
           href="#top"
+          data-build="1"
           className="inline-flex min-h-11 items-center gap-2.5 font-mono text-[13px] leading-none font-medium text-ink no-underline"
         >
           <span className="grid size-6 place-items-center rounded-md border border-ink text-[10px] tracking-[0.02em]">KP</span>
           <span>krit.poka</span>
         </a>
-        <div className="flex gap-2">
+        <div data-build="1" className="flex gap-2">
           <PaletteButton />
           <ThemeToggle />
         </div>
@@ -58,23 +60,23 @@ export default function Home() {
 
       <main id="top" className="relative mx-auto max-w-[680px] px-6">
         <section aria-labelledby="hero-name" className="pt-[88px] pb-2">
-          <p {...reveal(0)} className="mt-0 mb-[22px] flex items-center gap-2.5 font-mono text-[13px] leading-normal text-muted">
+          <p {...reveal(0)} data-build="2" className="mt-0 mb-[22px] flex items-center gap-2.5 font-mono text-[13px] leading-normal text-muted">
             <span
               aria-hidden="true"
               className="size-2 flex-none rounded-full bg-accent shadow-[0_0_0_4px_color-mix(in_oklch,var(--accent)_18%,transparent)]"
             />
             <span>Open to software engineering, mobile and design-engineer roles</span>
           </p>
-          <h1 {...reveal(1, "rise")} id="hero-name" className="m-0 text-5xl leading-[1.05] font-medium tracking-[-0.025em]">
+          <h1 {...reveal(1, "rise")} data-build="3" id="hero-name" className="m-0 text-5xl leading-[1.05] font-medium tracking-[-0.025em]">
             Krit Poka
           </h1>
-          <p {...reveal(2, "rise")} className="mt-4 mb-0 max-w-[26ch] text-[26px] leading-[1.3] tracking-[-0.01em] text-balance">
+          <p {...reveal(2, "rise")} data-build="4" className="mt-4 mb-0 max-w-[26ch] text-[26px] leading-[1.3] tracking-[-0.01em] text-balance">
             Software engineer who designs — Flutter, Next.js, and the UX in between.
           </p>
-          <p {...reveal(3)} className="mt-5 mb-0 font-mono text-[13px] leading-[1.7] text-muted">
+          <p {...reveal(3)} data-build="5" className="mt-5 mb-0 font-mono text-[13px] leading-[1.7] text-muted">
             Final-year Computer Science, <a href={LINKS.ku}>Kasetsart University</a> · Bangkok
           </p>
-          <nav {...reveal(4)} aria-label="Contact and profiles" className="mt-8 flex flex-wrap items-center gap-2">
+          <nav {...reveal(4)} data-build="6" aria-label="Contact and profiles" className="mt-8 flex flex-wrap items-center gap-2">
             <TrackedLink
               href={RESUME_PATH}
               download="Krit-Poka-Resume.pdf"
@@ -109,7 +111,7 @@ export default function Home() {
         </section>
 
         <section aria-labelledby="work" className="pt-[88px]">
-          <div className="flex items-baseline justify-between gap-4 border-b border-line pb-3">
+          <div data-build="7" className="flex items-baseline justify-between gap-4 border-b border-line pb-3">
             <h2 id="work" className="label m-0">
               Selected work
             </h2>
@@ -118,7 +120,7 @@ export default function Home() {
               <span className="min-[1360px]:[@media(hover:hover)]:hidden">Tap preview to expand</span>
             </span>
           </div>
-          <ol className="m-0 list-none p-0">
+          <ol data-build="8" className="m-0 list-none p-0">
             {selectedWork.map(({ preview, ...row }) => (
               <ProjectRow
                 key={row.title}
@@ -228,6 +230,7 @@ export default function Home() {
           </p>
         </div>
       </footer>
+      <BuildIntro />
     </div>
   );
 }
