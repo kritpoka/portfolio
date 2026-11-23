@@ -42,7 +42,7 @@ export type Step = {
 };
 
 export const buildIntro = {
-  enabled: true,
+  enabled: false,
   /** localStorage key. Once set, later visits skip straight to the finished page. */
   storageKey: "build-intro-seen",
   /** The page is shown anyway if the intro hasn't started by then (slow or failed JS). */
