@@ -1,6 +1,9 @@
+import { media } from "@/content/media";
+
 {/*
-  Confidential internal banking work. Text and generic, self-drawn diagrams only:
-  no screenshots, no product visuals, no internal names beyond what is here.
+  Internal banking work. Krit's ttb supervisor cleared this text and the
+  screenshots below (Nov 2026). Real data in the screenshots is blurred; add no
+  new visuals or internal names without asking Krit.
 */}
 
 export const meta = {
@@ -38,7 +41,7 @@ export const meta = {
   linksNote: "Internal work — no public links",
   note: {
     label: "Note",
-    text: "Product details and visuals omitted under confidentiality. Diagrams below are generic and self-drawn.",
+    text: "Screenshots are from my own builds: real data is blurred, sample and mock data are shown as-is. Diagrams are generic and self-drawn.",
   },
 };
 
@@ -74,7 +77,49 @@ The Business Analysis team described problems in business terms, so I asked ques
 - **Regex tester** with presets, flags and highlighting.
 - **QR code generator** with validation.
 - **A shared analytics component** that logs events through Firebase Analytics.
+- **Sign-in and AES decryption**, added to the app later.
 - **Release automation:** Fastlane + Melos with four lanes — analyze, unit test, version bump, and deploy to Firebase App Distribution.
+
+<ShotGrid
+  shots={[
+    {
+      image: media.ttbCsvParser,
+      label: "CSV ↔ JSON parser",
+      alt: "CSV to JSON parser converting a 13 MB mock CSV file, with a table preview and JSON output",
+      caption: "CSV ↔ JSON parser on a 13 MB mock file",
+    },
+    {
+      image: media.ttbRegex,
+      label: "Regex tester",
+      alt: "Regex tester with a URL preset, flags and highlighted matches",
+      caption: "Regex tester with presets, flags and highlighting",
+    },
+    {
+      image: media.ttbQr,
+      label: "QR code generator",
+      alt: "QR code generator with content input, colour options and a generated code",
+      caption: "QR code generator with validation",
+    },
+    {
+      image: media.ttbToolsSignIn,
+      label: "TEP Tools sign-in",
+      alt: "TEP Tools sign-in page",
+      caption: "Sign-in, added with authentication",
+    },
+    {
+      image: media.ttbAes,
+      label: "AES decryption",
+      alt: "AES decryption tool with encrypted input, key, IV and mode",
+      caption: "AES decryption (sample data)",
+    },
+    {
+      image: media.ttbAnalytics,
+      label: "Firebase Analytics events",
+      alt: "Firebase Analytics events table listing tool events such as decrypted_data and encrypted_data",
+      caption: "Events logged by the shared analytics component",
+    },
+  ]}
+/>
 
 ### Activity Log for the Business Analysis team
 
@@ -85,6 +130,30 @@ The Business Analysis team described problems in business terms, so I asked ques
 - Cache-first data with a stale fallback, and the TTL controlled through Remote Config.
 - Excel export, continuing work started by another intern.
 
+<ShotGrid
+  shots={[
+    {
+      image: media.ttbActivityLogSignIn,
+      label: "Activity Log sign-in",
+      alt: "Activity Log sign-in page",
+      caption: "Sign-in — one active device per account",
+      viewerCaption: "Activity Log sign-in — one active device per account",
+    },
+    {
+      image: media.ttbDataDictionary,
+      label: "Data dictionary",
+      alt: "Data dictionary table of common fields with edit and delete actions; descriptions and examples blurred",
+      caption: "Data dictionary with full CRUD (values blurred)",
+    },
+    {
+      image: media.ttbVersionLog,
+      label: "Version log detail",
+      alt: "Version log detail listing only the rows created in that version; IDs blurred",
+      caption: "Version log — only changed rows are stored",
+    },
+  ]}
+/>
+
 ### Enterprise platform team
 
 An all-in-one platform for staff and branches. I joined while the team was moving from a monorepo to micro-frontends.
@@ -93,6 +162,18 @@ An all-in-one platform for staff and branches. I joined while the team was movin
 - Studied Git submodules to bring team repositories together for testing.
 - Real-time unread-message notifications with Cubit and WebSocket.
 - An idle timeout that works across several browser tabs.
+
+<ShotGrid
+  single
+  shots={[
+    {
+      image: media.ttbIdleTimeout,
+      label: "Multi-tab idle timeout",
+      alt: "Two browser tabs showing the same session-timeout prompt at once, with local storage open in dev tools; page content and stored values blurred",
+      caption: "Multi-tab idle timeout — every open tab shows the same prompt",
+    },
+  ]}
+/>
 
 </Section>
 

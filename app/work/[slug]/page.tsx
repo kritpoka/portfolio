@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import TrackView from "@/components/TrackView";
 import { CaseFooter, CaseNav, NextProject } from "@/components/case/CaseChrome";
 import CaseHeader from "@/components/case/CaseHeader";
+import ShotViewer from "@/components/case/ShotViewer";
 import { caseStudies, getCaseStudy, getNextCaseStudy } from "@/lib/work";
 
 export function generateStaticParams() {
@@ -42,6 +43,7 @@ export default async function CaseStudyPage({ params }: PageProps<"/work/[slug]"
         </div>
       </main>
       <CaseFooter />
+      <ShotViewer />
     </div>
   );
 }

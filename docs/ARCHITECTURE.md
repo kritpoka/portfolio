@@ -224,7 +224,7 @@ Full list in [CLAUDE.md](../CLAUDE.md#content-rules). In short:
 
 - No photo of the owner, no GPA, no phone number.
 - Never invent metrics, quotes or screenshots.
-- The ttb case study is text and generic self-drawn diagrams only. It carries the note "Product details and visuals omitted under confidentiality."
+- The ttb case study shows only the screenshots Krit's supervisor cleared, with real data blurred, plus generic self-drawn diagrams. It carries a note saying so.
 - Kasetfair POS has strict accuracy rules about what the app does (no real-time claims, no stock quantities, who can read data, test data only). Check CLAUDE.md before editing that page.
 - The KU Campus Map role is always written in full.
 - `sources/` (private notes and source documents) is never committed.
@@ -270,7 +270,7 @@ Example slug: `my-project`.
 | Vendored OG fonts and `"use cache"` | Keeps the share-image routes static and makes sure the build includes the font files. |
 | Per-page share images generated from data | They can't drift from the case study titles and summaries, and a new project gets one automatically. |
 | Blurred food photos in the POS screenshots | They come from other websites, so they must not be shown clearly. The blur is applied by the script, not by hand. |
-| Generic names in the ttb case study | It's confidential bank work: text and self-drawn diagrams only. |
+| Cleared, blurred screenshots in the ttb case study | It's internal bank work: only screenshots the supervisor cleared, with real data blurred, open in a click-to-enlarge viewer. |
 | HTML/CSS diagrams, not images | Real text, theme-aware colours, crisp at any size, and they stack on phones. |
 | `SITE_URL` set explicitly | The hosting platform's own hostname isn't reliable enough to put in share links (see [the bug](#the-share-image-bug)). |
 

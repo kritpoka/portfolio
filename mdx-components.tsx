@@ -4,7 +4,7 @@ import { BrowserPhoneHero, PhonesHero } from "@/components/case/Heroes";
 import MapPreview from "@/components/case/MapPreview";
 import { SmartDormWorkflowHero } from "@/components/diagrams/SmartDormWorkflow";
 import { Ph } from "@/components/case/Ph";
-import { PhoneShots, Screenshot } from "@/components/case/Shots";
+import { PhoneShots, Screenshot, ShotGrid } from "@/components/case/Shots";
 import {
   CiPipelineDiagram,
   CleanArchitectureDiagram,
@@ -32,6 +32,7 @@ const components = {
   PhonesHero,
   Screenshot,
   PhoneShots,
+  ShotGrid,
   MapPreview,
   SmartDormDiagram,
   KuCampusMapDiagram,

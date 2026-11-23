@@ -4,7 +4,9 @@
 //
 // Originals live in sources/assets/ (gitignored). Outputs are WebP at a sensible
 // max width; next/image then serves AVIF/WebP at the size each layout needs.
-// Never add the KU Map landmark photos (other photographers' work) or anything ttb.
+// Never add the KU Map landmark photos (other photographers' work). The ttb
+// screenshots were cleared by Krit's ttb supervisor (Nov 2026); their real data
+// is already blurred in the originals.
 
 import { mkdir, writeFile } from "node:fs/promises";
 import { join } from "node:path";
@@ -41,6 +43,16 @@ const IMAGES = {
   posDashboard: ["kasetfair-pos/dashboard.png", "kasetfair-pos", "dashboard", 780, POS_CROP],
   posProducts: ["kasetfair-pos/product-list.png", "kasetfair-pos", "product-list", 780, POS_CROP],
   posEdit: ["kasetfair-pos/edit.png", "kasetfair-pos", "edit", 780, POS_CROP],
+  ttbCsvParser: ["ttb/csv-json-parser.jpg", "ttb", "csv-json-parser", 1600],
+  ttbRegex: ["ttb/regex-tester.jpg", "ttb", "regex-tester", 1600],
+  ttbQr: ["ttb/qr-generator.jpg", "ttb", "qr-generator", 1600],
+  ttbToolsSignIn: ["ttb/tools-sign-in.jpg", "ttb", "tools-sign-in", 1600],
+  ttbAes: ["ttb/aes-decryption.jpg", "ttb", "aes-decryption", 1600],
+  ttbAnalytics: ["ttb/analytics-events.jpg", "ttb", "analytics-events", 1600],
+  ttbActivityLogSignIn: ["ttb/activity-log-sign-in.jpg", "ttb", "activity-log-sign-in", 1600],
+  ttbDataDictionary: ["ttb/data-dictionary.jpg", "ttb", "data-dictionary", 1600],
+  ttbVersionLog: ["ttb/version-log.jpg", "ttb", "version-log", 1600],
+  ttbIdleTimeout: ["ttb/multi-tab-timeout.jpg", "ttb", "multi-tab-timeout", 1600],
 };
 
 const entries = [];

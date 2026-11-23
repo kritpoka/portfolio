@@ -19,11 +19,11 @@ At the start of every session, read sources/HANDOFF.md and SOURCES.md before doi
 ## Content rules
 - **No photo** of Krit. **Never show GPA.** Never show the phone number.
 - **Never invent** metrics, user counts, quotes, dates, team sizes or screenshots. Unknowns stay as `[PLACEHOLDER]` chips (`<Ph>` in MDX, or a `"[…]"` string in meta / `Outcome` / `Findings`).
-- **ttb is confidential:**
-  - Text and generic, self-drawn diagrams only.
-  - No screenshots or product visuals.
-  - No internal names beyond those already on the page.
-  - Keep the note "Product details and visuals omitted under confidentiality."
+- **ttb is internal bank work:**
+  - Krit's ttb supervisor cleared the 10 screenshots on the page (Nov 2026). Add no other screenshots or product visuals without asking Krit.
+  - Real data in screenshots stays blurred; sample and mock data may show.
+  - No internal names beyond those already on the page or in its screenshots.
+  - Keep the note "Screenshots are from my own builds: real data is blurred, sample and mock data are shown as-is. Diagrams are generic and self-drawn."
 - **Kasetfair POS accuracy** (checked in Supabase and the code):
   - Realtime is off: never say "real-time".
   - Products have no stock quantity: say "products" everywhere, never "stock" or "inventory". "The dashboard reflects every order" is accurate.
@@ -83,7 +83,7 @@ Each project is `content/work/<slug>.mdx`:
    - Context & problem
    - My role
    - Users & research, when there was research (Smart Dorm): text plus `<Findings items={[…]} />`
-   - What it does / How I built it / What I built: project-specific, from the notes. Screenshots go here as `<Screenshot image alt caption />` or `<PhoneShots shots={[…]} />`, with images from `content/media.ts`.
+   - What it does / How I built it / What I built: project-specific, from the notes. Screenshots go here as `<Screenshot image alt caption />`, `<PhoneShots shots={[…]} />` or `<ShotGrid shots={[…]} />` (desktop grid at 1040px with click-to-enlarge; add `single` for one wide shot), with images from `content/media.ts`.
    - Decisions & trade-offs: `<Decision title why />`, adding `options` and `choice` when they're known
    - Architecture: a diagram component from `components/diagrams`
    - Outcome: `<Outcome items={[{ value, label }]} />` for measured numbers, otherwise bullets
