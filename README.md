@@ -1,6 +1,6 @@
 # krit.poka — portfolio
 
-Personal site of Krit Poka, a software engineer who designs: Flutter, Next.js, and the UX in between. A short homepage and four case studies, built as a fully static Next.js site.
+Personal site of Krit Poka, a software engineer who designs: Flutter, Next.js, and the UX in between. A short homepage and five case studies, built as a fully static Next.js site.
 
 **Live:** https://kritpoka-portfolio.vercel.app
 
@@ -56,7 +56,7 @@ app/
   opengraph-image.tsx   homepage share image
   sitemap.ts, robots.ts, not-found.tsx, icon.svg, apple-icon.tsx, globals.css
 content/
-  work/*.mdx            the four case studies (front matter + MDX body)
+  work/*.mdx            the five case studies (front matter + MDX body)
   home.ts               homepage copy: selected work, experience, more projects, recognition
   media.ts              GENERATED image metadata; do not edit by hand
 components/

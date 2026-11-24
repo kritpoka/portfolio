@@ -68,7 +68,7 @@ The build table (`npm run build`) shows `○` or `●` next to every page. A `ƒ
 |---|---|
 | `Blocks.tsx` | `Section` (numbered, labelled `<section>`), `Findings` (F1, F2 rows), `Decision` (title, optional options and choice, why), `Outcome` (measured numbers or text). |
 | `CaseHeader.tsx` | The page header from `meta`: title, summary, role, timeline, stack, links, optional note. A link without `href` renders as a dashed `[LINK]` chip. |
-| `CaseChrome.tsx` | `CaseNav` (back link, "Case study n / 4", theme toggle), `NextProject`, `CaseFooter`. |
+| `CaseChrome.tsx` | `CaseNav` (back link, "Case study n / total", theme toggle), `NextProject`, `CaseFooter`. |
 | `Heroes.tsx` | `BrowserPhoneHero` and `PhonesHero`: device frames sized in container-query units, so they scale down to 360px. They sit outside the 680px text column (max 1040px). |
 | `Shots.tsx` | `Screenshot` and `PhoneShots`, taking images from `content/media.ts`. |
 | `MapPreview.tsx` | The KU Campus Map hero, see below. |
@@ -81,7 +81,7 @@ The build table (`npm run build`) shows `○` or `●` next to every page. A `ƒ
 Diagrams are HTML and CSS, not images, so their text is real, selectable and readable by screen readers.
 
 - `primitives.tsx`: `DiagramFrame`, `Node`, `Stack`, `Arrow` and `Flow`. `Flow` is a horizontal grid that becomes a vertical stack below 560px, and `Arrow` switches from → to ↓ at the same breakpoint.
-- `index.tsx`: the Smart Dorm, KU Campus Map, Kasetfair POS, Clean Architecture and CI pipeline diagrams. The ttb page uses the last two, which are generic and self-drawn.
+- `index.tsx`: the Smart Dorm, KU Campus Map, Kasetfair POS, Smart Locker (rental flow and layers), Clean Architecture and CI pipeline diagrams. The ttb page uses the last two, which are generic and self-drawn.
 - `SmartDormWorkflow.tsx`: the before/after billing diagram, in a hero version and a small preview version for the homepage.
 
 ### Command menu: `components/command/`

@@ -4,6 +4,7 @@ import SmartDorm, { meta as smartDorm } from "@/content/work/smart-dorm.mdx";
 import KuCampusMap, { meta as kuCampusMap } from "@/content/work/ku-campus-map.mdx";
 import KasetfairPos, { meta as kasetfairPos } from "@/content/work/kasetfair-pos.mdx";
 import Ttb, { meta as ttb } from "@/content/work/ttb.mdx";
+import SmartLocker, { meta as smartLocker } from "@/content/work/smart-locker.mdx";
 
 type CaseStudy = { meta: CaseMeta; Content: ComponentType };
 
@@ -13,6 +14,7 @@ const ALL: CaseStudy[] = [
   { meta: kuCampusMap, Content: KuCampusMap },
   { meta: kasetfairPos, Content: KasetfairPos },
   { meta: ttb, Content: Ttb },
+  { meta: smartLocker, Content: SmartLocker },
 ].sort((a, b) => a.meta.order - b.meta.order);
 
 export const caseStudies = ALL;

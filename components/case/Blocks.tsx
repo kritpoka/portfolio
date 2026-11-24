@@ -65,10 +65,18 @@ export function Decision({ title, options, choice, why }: DecisionProps) {
   );
 }
 
-/** Outcome tiles. A "[METRIC]" value renders as a placeholder; never invent a number. */
-export function Outcome({ items }: { items: { value: string; label: string }[] }) {
+/**
+ * Outcome tiles. A "[METRIC]" value renders as a placeholder; never invent a number.
+ * `compact`: narrower columns, so four numbers fit on one row.
+ */
+export function Outcome({ items, compact }: { items: { value: string; label: string }[]; compact?: boolean }) {
   return (
-    <div className="grid grid-cols-[repeat(auto-fit,minmax(180px,1fr))] gap-px overflow-hidden rounded-xl border border-line bg-line">
+    <div
+      className={
+        "grid gap-px overflow-hidden rounded-xl border border-line bg-line " +
+        (compact ? "grid-cols-[repeat(auto-fit,minmax(140px,1fr))]" : "grid-cols-[repeat(auto-fit,minmax(180px,1fr))]")
+      }
+    >
       {items.map((item) => (
         <div key={item.label} className="bg-raise p-[18px]">
           <div

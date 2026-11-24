@@ -14,16 +14,16 @@ const caseLink = (slug: string) => ({ label: "Case study →", href: `/work/${sl
 
 export const selectedWork: SelectedWork[] = [
   {
-    title: "Smart Dorm",
-    year: "2025–2026",
-    href: "/work/smart-dorm",
+    title: "ttb",
+    subtitle: "Software Engineer Tech Intern",
+    year: "2026",
+    href: "/work/ttb",
     outcome:
-      "Replaced a dorm office's Excel-and-email billing with one system where staff and residents can see every bill's status. Usability-tested with the real dorm staff.",
-    role: "UX/UI, workflow + front-end, team of 4",
-    stack: "Figma · Next.js · Spring Boot · Flutter (follow-up app)",
-    links: [caseLink("smart-dorm")],
-    caption: "Monthly billing, before and after",
-    preview: { diagram: "smart-dorm-workflow" },
+      "Internal developer tools, an activity log for Business Analysis and platform features for the tablet platform team.",
+    note: "Internal banking work — details under confidentiality.",
+    role: "Tech Intern",
+    stack: "Flutter · Clean Architecture · BLoC · Firebase · CI with Fastlane, Melos and Jenkins",
+    links: [caseLink("ttb")],
   },
   {
     title: "KU Campus Map",
@@ -50,6 +50,17 @@ export const selectedWork: SelectedWork[] = [
     },
   },
   {
+    title: "Smart Locker",
+    subtitle: "Backend",
+    year: "2026",
+    href: "/work/smart-locker",
+    outcome:
+      "REST API for a pay-by-the-hour smart locker — rentals, pricing, overtime payments and remote open and close of the locker doors.",
+    role: "One of two backend developers, 10-person team",
+    stack: "Go · Fiber · PostgreSQL · JWT · Docker",
+    links: [caseLink("smart-locker")],
+  },
+  {
     title: "Kasetfair POS",
     year: "2026",
     href: "/work/kasetfair-pos",
@@ -74,16 +85,16 @@ export const selectedWork: SelectedWork[] = [
     },
   },
   {
-    title: "ttb",
-    subtitle: "Software Engineer Tech Intern",
-    year: "2026",
-    href: "/work/ttb",
+    title: "Smart Dorm",
+    year: "2025–2026",
+    href: "/work/smart-dorm",
     outcome:
-      "Internal developer tools, an activity log for Business Analysis and platform features for the tablet platform team.",
-    note: "Internal banking work — details under confidentiality.",
-    role: "Tech Intern",
-    stack: "Flutter · Clean Architecture · BLoC · Firebase · CI with Fastlane, Melos and Jenkins",
-    links: [caseLink("ttb")],
+      "Replaced a dorm office's Excel-and-email billing with one system where staff and residents can see every bill's status. Usability-tested with the real dorm staff.",
+    role: "UX/UI, workflow + front-end, team of 4",
+    stack: "Figma · Next.js · Spring Boot · Flutter (follow-up app)",
+    links: [caseLink("smart-dorm")],
+    caption: "Monthly billing, before and after",
+    preview: { diagram: "smart-dorm-workflow" },
   },
 ];
 

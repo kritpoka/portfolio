@@ -1,0 +1,115 @@
+{/*
+  Facts checked against kritpoka/locker-app-backend-review (private) on
+  24 Nov 2026: 82 commits, 48 by Krit; 45 routes; 11 Flyway migrations;
+  30 tests over 7 services, all Krit's; expiry 5 min, job every 30 s.
+  Notes: sources/notes/smart-locker.md.
+*/}
+
+export const meta = {
+  slug: "smart-locker",
+  order: 3,
+  title: "A Go backend for a pay-by-the-hour smart locker",
+  longTitle: true,
+  shortTitle: "Smart Locker",
+  year: "2026",
+  readTime: "4 min read",
+  summary:
+    "The REST API behind a team-built smart locker: rentals, pricing, overtime payments and opening real locker doors from a phone.",
+  description:
+    "Smart Locker case study: the Go REST API behind a team-built, pay-by-the-hour smart locker — rentals, pricing, overtime payments, JWT roles and remote open and close, with 30 unit tests.",
+  role: "Backend developer",
+  team: "10 people · 2 on the backend · Project Management course",
+  timeline: "2026 · Kasetsart University",
+  stack: [
+    "Go",
+    "Fiber",
+    "PostgreSQL",
+    "pgx",
+    "Flyway migrations",
+    "JWT",
+    "Docker Compose",
+    "Air (hot reload)",
+    "Go test",
+    "LINE Messaging API",
+  ],
+  links: [],
+  linksNote: "Course project — code is in a private team repository",
+};
+
+<Section n="01" title="TL;DR" id="tldr">
+
+- One of two backend developers — 48 of the 82 commits are mine, from the layered structure and database schema to the unit tests.
+- Built lockers, sizes, pricing, rentals and payments, including the rule that turns overtime into a pending payment and recalculates the total.
+- Added JWT verification and role-based route guards, owner-checked remote open and close, and 30 unit tests over the services.
+
+</Section>
+
+<Section n="02" title="Context & problem">
+
+For the Project Management course, a 10-person team built a smart locker system. A user rents a locker for a set number of hours, pays, and opens or closes it from their phone. Admins manage the lockers, sizes and prices.
+
+The team split the work into a user app, an admin app, a driver for the locker hardware and the backend. The backend sits in the middle: every app reads and writes through it, and it is the only part that tells a locker door to open.
+
+</Section>
+
+<Section n="03" title="My role">
+
+Backend developer, one of two on the backend. I worked with the frontend developer to agree the API the apps would call.
+
+My teammate set up the project skeleton, sign-up and login, connected the locker hardware, and added the overtime checkout, the payment-expiry job and the LINE end-time warnings. I built the rest of the domain on top of that, listed below.
+
+</Section>
+
+<Section n="04" title="What I built">
+
+### Structure and data
+
+- **Layered structure:** split the code into handlers, services and repositories, each behind an interface.
+- **PostgreSQL schema:** the tables, foreign keys, data types and delete/update constraints in the Flyway migrations.
+- **Resource endpoints:** create, read, update and delete for lockers, locker sizes, price settings, rentals and payments, plus user lookup — with responses that include the related locker, size and user details.
+
+### Rentals and payments
+
+- **Start a rental:** the locker must be available and the user must have no pending payment. The price is paid hours × the hourly rate for that locker size.
+- **End a rental:** time used is rounded up to the hour. On time, the rental completes and the locker opens. Over time, the extra hours × the size's overtime rate become a pending PromptPay payment.
+- **Overtime recalculation:** when the overtime is paid, the rental's total is recalculated and it completes.
+
+### Access and hardware
+
+- **JWT with roles:** middleware verifies the token and the role, wired into every route. Lockers, sizes, prices and users are admin-only.
+- **Remote open and close:** a user can open or close only the locker they are renting. The command goes to the locker hardware through the device client my teammate wrote.
+
+### Quality
+
+- **Unit tests:** 30 tests over 7 services — auth, users, lockers, sizes, prices, rentals and payments — with mocked repositories.
+- **Clearer errors:** ID validation on requests and user-facing error messages in Thai.
+
+</Section>
+
+<Section n="05" title="Rental flow">
+
+<SmartLockerRentalFlow />
+
+</Section>
+
+<Section n="06" title="Architecture">
+
+<SmartLockerDiagram />
+
+</Section>
+
+<Section n="07" title="Outcome">
+
+<Outcome
+  compact
+  items={[
+    { value: "45", label: "API endpoints" },
+    { value: "48 / 82", label: "Backend commits mine" },
+    { value: "11", label: "Schema migrations" },
+    { value: "30", label: "Unit tests" },
+  ]}
+/>
+
+The API served the team's user app, admin app and locker driver, and runs locally with one <code className="rounded bg-surface px-[5px] py-0.5 font-mono text-[0.88em] leading-none">docker compose up</code>.
+
+</Section>

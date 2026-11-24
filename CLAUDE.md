@@ -33,6 +33,7 @@ At the start of every session, read sources/HANDOFF.md and SOURCES.md before doi
 - **Images:**
   - Don't use the KU Map landmark photos (other photographers).
   - Food photos in the POS screenshots come from other websites: they must stay blurred (see `POS_BLUR` in `scripts/optimize-images.mjs`).
+- **Smart Locker:** Krit is "one of two backend developers" on a 10-person course team. The locker device client, LINE warnings, scheduled jobs, overtime checkout and sign-up/login are his teammate's; never claim them. Numbers (48/82 commits, 45 endpoints, 11 migrations, 30 tests) were checked in the private repo on 24 Nov 2026.
 - **Activities:** Krit was a working-group member, not an executive, in KU Tech club and KU Hackathon.
 - **Never commit `sources/`:** the internship report and poster are internal, and the old resume has GPA and phone.
 

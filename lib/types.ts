@@ -4,7 +4,7 @@ export type CaseLink = { label: string; href?: string };
 /** Front matter exported as `meta` from every content/work/*.mdx file. */
 export type CaseMeta = {
   slug: string;
-  /** Position in the case study sequence ("Case study n / 4") and the next-project loop. */
+  /** Position in the case study sequence ("Case study n / 5") and the next-project loop. */
   order: number;
   /** H1 on the case page. */
   title: string;

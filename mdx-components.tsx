@@ -11,6 +11,8 @@ import {
   KasetfairPosDiagram,
   KuCampusMapDiagram,
   SmartDormDiagram,
+  SmartLockerDiagram,
+  SmartLockerRentalFlow,
 } from "@/components/diagrams";
 
 // Markdown elements styled to the case-study template, plus every template
@@ -39,6 +41,8 @@ const components = {
   KasetfairPosDiagram,
   CleanArchitectureDiagram,
   CiPipelineDiagram,
+  SmartLockerRentalFlow,
+  SmartLockerDiagram,
 } satisfies MDXComponents;
 
 export function useMDXComponents(): MDXComponents {
